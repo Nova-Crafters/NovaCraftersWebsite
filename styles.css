@@ -1,0 +1,306 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav {
+    background: linear-gradient(270deg, #1a2a6c, #b21f1f, #fdbb2d, #0f9b8e, #1a2a6c);
+    background-size: 1000% 1000%;
+    animation: aurora 20s ease infinite;
+    overflow: hidden;
+    padding: 5px 0;
+  }
+  
+  @keyframes aurora {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .nav-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  
+  nav a {
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+  }
+  
+  nav a:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .content {
+    padding: 20px;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  .hero {
+    text-align: center;
+    background: #f0f4f8;
+    padding: 60px 20px;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .cta-button {
+    background-color: #0f9b8e;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #0d7a71;
+  }
+  
+  .mission, .testimonials, .partners {
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .mission h2, .testimonials h2, .partners h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+  
+  .testimonial {
+    background-color: #e6f2f0;
+    padding: 20px;
+    border-left: 5px solid #0f9b8e;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000; 
+    background: linear-gradient(270deg, #1a2a6c, #b21f1f, #fdbb2d, #0f9b8e, #1a2a6c);
+    background-size: 1000% 1000%;
+    animation: aurora 20s ease infinite;
+    overflow: hidden;
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  /* --- General content section styles --- */
+section {
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: auto;
+    font-family: 'Montserrat', sans-serif;
+    color: #044d4d;
+    background: #e0f2f1;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(4,77,77,0.1);
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+  }
+  
+  section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(4,77,77,0.15);
+  }
+  
+  /* Hero style for Home and About */
+  .hero, .about-hero, .services-intro, .contact-info, .faq-intro {
+    background: #b2dfdb;
+    color: #003933;
+    text-align: center;
+    box-shadow: 0 6px 14px rgba(0,57,51,0.2);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  
+  /* Headings */
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #00796b;
+    padding-bottom: 6px;
+    color: #004d40;
+  }
+  
+  h3 {
+    font-size: 1.4rem;
+    color: #00695c;
+    margin-bottom: 8px;
+  }
+  
+  /* Lists */
+  ul {
+    padding-left: 20px;
+  }
+  
+  ul li {
+    margin-bottom: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  
+  /* Testimonials */
+  .testimonial {
+    background-color: #b2dfdb;
+    padding: 20px;
+    border-left: 6px solid #004d40;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-style: italic;
+    color: #004d40;
+  }
+  
+  /* FAQ */
+  .faq-list .faq-item {
+    background: #a7d7c5;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(4,77,77,0.12);
+  }
+  
+  /* Contact form */
+  form {
+    max-width: 600px;
+    margin: auto;
+    background: #b2dfdb;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0,57,51,0.15);
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 1px solid #004d40;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  
+  button.cta-button {
+    background-color: #00796b;
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.cta-button:hover,
+  .cta-button:hover {
+    background-color: #004d40;
+    text-decoration: none;
+    color: white;
+  }
+/* Remove background, border-radius, and shadow from all sections except FAQ */
+section {
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: auto;
+    font-family: 'Montserrat', sans-serif;
+    color: #044d4d;
+    background: transparent; /* removed background */
+    border-radius: 0; /* removed rounding */
+    box-shadow: none; /* removed shadow */
+    margin-bottom: 30px;
+    transition: none;
+  }
+  
+  section:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* Keep background and styling only for hero sections and contact form for emphasis */
+  .hero, .about-hero, .services-intro, .contact-info, .faq-intro {
+    background: #b2dfdb;
+    color: #003933;
+    text-align: center;
+    box-shadow: 0 6px 14px rgba(0,57,51,0.2);
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 10px;
+  }
+  
+  /* Testimonials without boxes */
+  .testimonial {
+    background-color: transparent;
+    border-left: 6px solid #004d40;
+    padding-left: 14px;
+    margin-top: 20px;
+    font-style: italic;
+    color: #004d40;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  
+  /* Keep green boxes styling for FAQ items */
+  .faq-list .faq-item {
+    background: #a7d7c5;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(4,77,77,0.12);
+  }
+  
+  /* Contact form with subtle background */
+  form {
+    max-width: 600px;
+    margin: auto;
+    background: #b2dfdb;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0,57,51,0.15);
+  }
+  
+    
