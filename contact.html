@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaCrafters - Contact Us</title>
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">NovaCrafters</div>
+                <ul class="nav-links">
+                    <li><a href="MainPage.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="form-container">
+            <h1 class="form-title">Contact Us</h1>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label class="form-label" for="fullName">
+                        Full Name<span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName" 
+                        class="form-input" 
+                        placeholder="Type Here..."
+                        required
+                    >
+                    <div class="error-message" id="fullNameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">
+                        Email<span class="required">*</span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="name@email.com"
+                        required
+                    >
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="organization">
+                        Company / Organization<span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="organization" 
+                        name="organization" 
+                        class="form-input" 
+                        placeholder="Type Here..."
+                        required
+                    >
+                    <div class="error-message" id="organizationError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="message">
+                        Message<span class="required">*</span>
+                    </label>
+                    <textarea 
+                        id="message" 
+                        name="message" 
+                        class="form-input form-textarea" 
+                        placeholder="Provide details for your inquiry. How can we help?"
+                        maxlength="1000"
+                        required
+                    ></textarea>
+                    <div class="character-count" id="characterCount">1000 characters remaining</div>
+                    <div class="error-message" id="messageError"></div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input 
+                        type="checkbox" 
+                        id="certification" 
+                        name="certification" 
+                        class="checkbox-input"
+                        required
+                    >
+                    <label class="checkbox-label" for="certification">
+                        Organization is 501(c)(3) Certified<span class="required">*</span>
+                    </label>
+                    <div class="error-message" id="certificationError"></div>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit</button>
+
+                <div class="form-footer">
+                    Our organization only accepts requests from 501(c)(3) certified not-for-profit organizations. 
+                    If you still have questions, please <a href="#schedule">schedule a call</a>.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form validation and submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Clear previous errors
+            clearErrors();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Validate form
+            let isValid = true;
+            
+            if (!data.fullName.trim()) {
+                showError('fullNameError', 'Full name is required');
+                isValid = false;
+            }
+            
+            if (!data.email.trim()) {
+                showError('emailError', 'Email is required');
+                isValid = false;
+            } else if (!isValidEmail(data.email)) {
+                showError('emailError', 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            if (!data.organization.trim()) {
+                showError('organizationError', 'Organization is required');
+                isValid = false;
+            }
+            
+            if (!data.message.trim()) {
+                showError('messageError', 'Message is required');
+                isValid = false;
+            }
+            
+            if (!data.certification) {
+                showError('certificationError', 'Please confirm 501(c)(3) certification');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Simulate form submission
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Thank you for your submission! We will get back to you soon.');
+                this.reset();
+                updateCharacterCount();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Character counter for message field
+        const messageField = document.getElementById('message');
+        const characterCount = document.getElementById('characterCount');
+
+        messageField.addEventListener('input', updateCharacterCount);
+
+        function updateCharacterCount() {
+            const remaining = 1000 - messageField.value.length;
+            characterCount.textContent = `${remaining} characters remaining`;
+            
+            if (remaining < 100) {
+                characterCount.style.color = '#ff6b6b';
+            } else {
+                characterCount.style.color = 'rgba(255, 255, 255, 0.7)';
+            }
+        }
+
+        // Real-time validation
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.classList.contains('error')) {
+                    validateField(this);
+                }
+            });
+        });
+
+        function validateField(field) {
+            const fieldName = field.name;
+            const value = field.value.trim();
+            
+            // Clear previous state
+            field.classList.remove('error', 'success');
+            
+            if (fieldName === 'email' && value) {
+                if (isValidEmail(value)) {
+                    field.classList.add('success');
+                } else {
+                    field.classList.add('error');
+                }
+            } else if (value) {
+                field.classList.add('success');
+            }
+        }
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            const inputElement = errorElement.previousElementSibling;
+            
+            if (inputElement && inputElement.classList.contains('form-input')) {
+                inputElement.classList.add('error');
+            }
+            
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+                error.textContent = '';
+            });
+            
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.classList.remove('error');
+            });
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+    </script>
+</body>
+</html>
