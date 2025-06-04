@@ -1,157 +1,129 @@
-<!--hello!-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aurora Website</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-  <script>
-    function showTab(tabId) {
-      const tabs = document.querySelectorAll('.tab-content');
-      tabs.forEach(tab => tab.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">NovaCrafters</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-  <nav>
-    <div class="nav-container">
-      <a href="#" onclick="showTab('home')">Home</a>
-      <a href="#" onclick="showTab('about')">About</a>
-      <a href="#" onclick="showTab('services')">Services</a>
-      <a href="#" onclick="showTab('contact')">Contact Us</a>
-      <a href="#" onclick="showTab('faq')">FAQ</a>
-    </div>
-  </nav>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Empowering Nonprofits with <span class="highlight"></span>Free</span> Websites</h1>
+                    <p>Elevate your 501(c)(3) certified nonprofit with a free, expertly designed website. Our dedicated team of designers and developers is here to enhance your online presence and support your cause. Let's build something impactful together, at no cost to your organization.</p>
+                    <a href="#contact" class="cta-button">Get Started Today</a>
+                </div>
+                
+                <div class="hero-image">
+                    <img src="Nova-Crafters.png" alt="Organization Logo" width="500px">
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <div class="content">
-    <div id="home" class="tab-content active">
-      <section class="hero">
-        <h1>Empowering Small Businesses Online</h1>
-        <p>We’re a nonprofit dedicated to helping local entrepreneurs build beautiful, functional websites — at no cost.</p>
-        <a class="cta-button" href="#" onclick="showTab('services')">See Our Services</a>
-      </section>
-      
-      <section class="mission">
-        <h2>Our Mission</h2>
-        <p>We believe every small business deserves an online presence. Whether you're a local bakery or a freelance artist, Nova Crafters is here to help you grow through effective web design and digital tools.</p>
-      </section>
-      
-      <section class="testimonials">
-        <h2>Success Stories</h2>
-        <div class="testimonial">
-          <p>"Thanks to this nonprofit I made my first 5 dollars on feet finder!"</p>
-          <strong>– Arjun, Professional Programmer</strong>
+    <!-- Who We Are Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">Who We Are</h2>
+            <div class="section-content">
+                <p>NovaCrafters is a 501(c)(3) not-for-profit organization with a goal of creating free websites for other 501(c)(3) non profit organizations. NovaCrafters was founded by a team of award-winning friends in high school with a passion for website development and community service. Click learn more to read more about the organization.</p>
+                <div class="learn-more">
+                    <a href="#" class="learn-more-btn">Learn More</a>
+                </div>
+            </div>
         </div>
-        <div class="testimonial">
-          <p>"Nova Crafters helped me create a minecraft website to help my sevices grow."</p>
-          <strong>– Gutta, Jobless</strong>
-        </div>
-      </section>
-      
-      <section class="partners">
-        <h2>Our Partners</h2>
-        <p>We collaborate with tech companies, design volunteers, and community leaders to bring resources to those who need them most.</p>
-        <ul>
-          <li>OpenWeb Collective</li>
-          <li>Code for Good</li>
-          <li>Designers United</li>
-        </ul>
-      </section>      
-    </div>
-    <div id="about" class="tab-content">
-      <section class="about-hero">
-        <h1>Who We Are</h1>
-        <p>We’re passionate volunteers, designers, and developers united by a single goal: empowering small businesses with professional websites.</p>
-      </section>
-      
-      <section class="values">
-        <h2>Our Core Values</h2>
-        <ul>
-          <li><strong>Accessibility:</strong> Websites should be simple, beautiful, and accessible to everyone.</li>
-          <li><strong>Community:</strong> We thrive on collaboration and support.</li>
-          <li><strong>Empowerment:</strong> We enable entrepreneurs to take charge of their online presence.</li>
-        </ul>
-      </section>
-      
-      <section class="team">
-        <h2>Meet the Team</h2>
-        <p>Our team is a diverse mix of tech enthusiasts, creative designers, and business experts volunteering their time and skills to help you succeed.</p>
-      </section>      
-    </div>
-    <div id="services" class="tab-content">
-      <section class="services-intro">
-        <h1>What We Offer</h1>
-        <p>Our free services help small businesses create and maintain a professional website without the usual stress or cost.</p>
-      </section>
-      
-      <section class="services-list">
-        <h2>Our Key Services</h2>
-        <ul>
-          <li><strong>Custom Website Design:</strong> Tailored websites reflecting your brand and vision.</li>
-          <li><strong>Mobile Optimization:</strong> Your site looks perfect on any device.</li>
-          <li><strong>SEO & Analytics:</strong> Helping you get discovered and track your growth.</li>
-          <li><strong>Training & Support:</strong> Empowering you to manage your website confidently.</li>
-        </ul>
-      </section>
-      
-      <section class="get-started">
-        <h2>Ready to Get Started?</h2>
-        <p>Contact us today to schedule your free website consultation!</p>
-        <a class="cta-button" href="#" onclick="showTab('contact')">Contact Us</a>
-      </section>      
-    </div>
-    <div id="contact" class="tab-content">
-      <section class="contact-info">
-        <h1>Get in Touch</h1>
-        <p>We’re here to help! Whether you want to volunteer, ask questions, or start your website project — reach out.</p>
-      </section>
-      
-      <section class="contact-form-section">
-        <h2>Contact Form</h2>
-        <form id="contact-form" onsubmit="alert('Thanks for reaching out! We will get back to you soon.'); return false;">
-          <label for="name">Name:</label><br/>
-          <input type="text" id="name" name="name" required /><br/><br/>
-      
-          <label for="email">Email:</label><br/>
-          <input type="email" id="email" name="email" required /><br/><br/>
-      
-          <label for="message">Message:</label><br/>
-          <textarea id="message" name="message" rows="4" required></textarea><br/><br/>
-      
-          <button type="submit" class="cta-button">Send Message</button>
-        </form>
-      </section>      
-    </div>
-    <div id="faq" class="tab-content">
-      <section class="faq-intro">
-        <h1>Frequently Asked Questions</h1>
-        <p>Got questions? We’ve got answers. If you don’t see what you’re looking for, feel free to contact us.</p>
-      </section>
-      
-      <section class="faq-list">
-        <div class="faq-item">
-          <h3>Who qualifies for your free website service?</h3>
-          <p>Small businesses and local entrepreneurs who lack the resources or time to build a professional website on their own.</p>
-        </div>
-        <div class="faq-item">
-          <h3>How long does the website building process take?</h3>
-          <p>Typically, it takes 4-6 weeks from consultation to launch, depending on the complexity and your feedback.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Do you offer training on managing the website?</h3>
-          <p>Yes! We provide training and ongoing support so you feel confident managing your site.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Can I update my website after it’s built?</h3>
-          <p>Absolutely! We build user-friendly sites with easy content management systems.</p>
-        </div>
-      </section>      
-    </div>
-  </div>
+    </section>
 
+    <section class="section section-alt" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Connect with Us</h3>
+                    <p>Reach out to our team by filling out a simple form or contacting us directly. Share your nonprofit's mission, goals, and any specific website requirements.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Collaborative Discovery</h3>
+                    <p>We'll schedule a consultation to better understand your organization's unique needs. Together, we'll define the scope, design preferences, and functionalities for your website.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Design & Development Kickoff</h3>
+                    <p>Once we have a clear vision, our team will begin crafting your custom website. You'll have opportunities for feedback and revisions throughout the process.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Review & Approval</h3>
+                    <p>We'll present the initial website design for your review. Collaborate with us to fine-tune the details, ensuring the site aligns seamlessly with your nonprofit's brand and mission.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>Launch & Training</h3>
+                    <p>Upon your approval, we'll launch your new or updated website. Our team will provide training and support, ensuring your organization is equipped to manage and update the site independently.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <h3>Ongoing Support</h3>
+                    <p>Even after launch, we're here to support you. Whether you need technical assistance, additional features, or updates, count on us as your ongoing digital partners.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" id="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-content">
+                <div class="faq-placeholder">
+                    <p>FAQ content would go here...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section section-alt" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <h2 class="section-title">Still Have Questions? Reach Out!</h2>
+                <p class="contact-subtitle">Schedule a free consultation to learn more!</p>
+                <a href="https://www.google.com" class="cta-button" target="_blank">Schedule a Call</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">NovaCrafters</div>
+                <p>&copy; 2025 NovaCrafters. All rights reserved. NonprofitReady Certified Nonprofit Organization.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
