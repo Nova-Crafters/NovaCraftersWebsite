@@ -1,2 +1,2 @@
-NovaCrafters:
-Empowering small businesses with free, well-made websites.
+# NovaCrafters
+Nonprofit to make websites for smaller companies.
