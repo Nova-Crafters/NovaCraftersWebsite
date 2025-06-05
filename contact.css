@@ -12,6 +12,13 @@ body {
 }
 
 /* Header Styles - Clean White Header */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
 header {
   background: #fff;
   padding: 1rem 0;
@@ -22,16 +29,10 @@ header {
   z-index: 1000;
 }
 
-header .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 40px;
-}
-
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
@@ -41,34 +42,21 @@ nav {
 }
 
 .nav-links {
-    display: flex;
-    list-style: none;
-    gap: 40px;
-    margin: 0;
-}
-
-.nav-links li {
-    margin: 0;
+  display: flex;
+  list-style: none;
+  gap: 2rem;
 }
 
 .nav-links a {
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 16px;
-    transition: color 0.3s ease;
-    padding: 8px 0;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
 .nav-links a:hover {
-    color: #667eea;
+  color: #2563eb;
 }
-
-.nav-links a.active {
-    color: #667eea;
-    font-weight: 600;
-}
-
 /* Main container for form */
 .main-container {
     max-width: 600px;
@@ -235,6 +223,30 @@ nav {
 
 .form-footer a:hover {
     text-decoration: underline;
+}
+
+footer {
+  background: #1e293b;
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+}
+
+footer p {
+  color: #94a3b8;
 }
 
 /* Mobile responsiveness */
