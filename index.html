@@ -12,7 +12,7 @@
             <nav>
                 <div class="logo">NovaCrafters</div>
                 <ul class="nav-links">
-                    <li><a href="mainpage.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -94,16 +94,103 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="section" id="faq">
-        <div class="container">
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            <div class="faq-content">
-                <div class="faq-placeholder">
-                    <p>FAQ content would go here...</p>
-                </div>
-            </div>
+    <!-- FAQ Section -->
+<section class="section faq-section" id="faq">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-content">
+        <div class="faq-item">
+          <button class="faq-question">
+            What is the mission of NovaCrafters?
+            <span class="faq-arrow">&#9654;</span>
+          </button>
+          <div class="faq-answer">
+            <p>Our mission is to provide free, expert-designed websites to 501(c)(3) nonprofit organizations, helping them establish a strong online presence and achieve their missions.</p>
+          </div>
         </div>
-    </section>
+        <div class="faq-item">
+          <button class="faq-question">
+            Who are the founders of NovaCrafters?
+            <span class="faq-arrow">&#9654;</span>
+          </button>
+          <div class="faq-answer">
+            <p>NovaCrafters was founded by a team of award-winning high school friends passionate about website development and community service.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Why do you offer your services for free?
+            <span class="faq-arrow">&#9654;</span>
+          </button>
+          <div class="faq-answer">
+            <p>We believe in giving back to the community by leveraging our skills to empower nonprofits, allowing them to reach a broader audience and maximize their impact.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            What types of organizations do you work with?
+            <span class="faq-arrow">&#9654;</span>
+          </button>
+          <div class="faq-answer">
+            <p>We work exclusively with 501(c)(3) certified nonprofit organizations across various sectors to enhance their digital presence.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            What services do you offer?
+            <span class="faq-arrow">&#9654;</span>
+          </button>
+          <div class="faq-answer">
+            <p>Our services include custom website design and development, content management system integration, and ongoing support to ensure your website remains effective and up-to-date.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            How can a nonprofit organization request your services?
+            <span class="faq-arrow">&#9654;</span>
+          </button>
+          <div class="faq-answer">
+            <p>Nonprofits can request our services by filling out the contact form on our website or reaching out to us directly via email. We'll then schedule a consultation to discuss your needs.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Do you offer ongoing support after the website is launched?
+            <span class="faq-arrow">&#9654;</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes, we provide ongoing support to assist with technical issues, updates, and any additional features your organization may require post-launch.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            What makes NovaCrafters different from other web design services?
+            <span class="faq-arrow">&#9654;</span>
+          </button>
+          <div class="faq-answer">
+            <p>Our commitment to providing high-quality, free web design services exclusively to nonprofits sets us apart. We focus on understanding each organization's unique mission to create impactful digital solutions.</p>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+      
+      <script>
+        document.querySelectorAll('.faq-question').forEach(button => {
+          button.addEventListener('click', () => {
+            const answer = button.nextElementSibling;
+            const arrow = button.querySelector('.arrow');
+      
+            button.classList.toggle('active');
+            answer.style.maxHeight = answer.style.maxHeight ? null : answer.scrollHeight + "px";
+            arrow.classList.toggle('rotate');
+          });
+        });
+      </script>
+      
+      
 
     <!-- Contact Section -->
     <section class="section section-alt" id="contact">
@@ -111,7 +198,7 @@
             <div class="contact-content">
                 <h2 class="section-title">Still Have Questions? Reach Out!</h2>
                 <p class="contact-subtitle">Schedule a free consultation to learn more!</p>
-                <a href="https://www.google.com" class="cta-button" target="_blank">Schedule a Call</a>
+                <a href="contact.html" class="cta-button" target="_blank">Schedule a Call</a>
             </div>
         </div>
     </section>

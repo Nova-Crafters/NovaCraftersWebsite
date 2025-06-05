@@ -38,7 +38,7 @@ nav {
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #2563eb;
+  color: #667eea;
 }
 
 .nav-links {
@@ -345,3 +345,231 @@ footer p {
       width: 250px;
   }
 }
+/* Enhanced FAQ Section */
+.faq-item {
+  background: #f8fafc;
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.faq-question {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+}
+
+.faq-answer {
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.7;
+}
+/* FAQ Accordion Styles */
+.faq-item {
+  margin-bottom: 1rem;
+  border-radius: 15px;
+  background: #f8fafc;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  position: relative;
+  color: #1e293b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-question .arrow {
+  transition: transform 0.3s ease;
+}
+
+.faq-question.active .arrow,
+.faq-question .arrow.rotate {
+  transform: rotate(90deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1.5rem;
+  transition: max-height 0.3s ease;
+  color: #475569;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+/* Modern, Slim, Gradient FAQ Style */
+/* Clean, Neutral FAQ Dropdown */
+.faq-content {
+  width: 100%;
+}
+
+.faq-item {
+  margin-bottom: 0.5rem;
+  background: transparent;
+  width: 100%;
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #1e293b;
+}
+
+.faq-question .arrow {
+  transition: transform 0.3s ease;
+}
+
+.faq-question.active .arrow,
+.faq-question .arrow.rotate {
+  transform: rotate(90deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #475569;
+}
+/* FAQ Section Background */
+#faq {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 80px 0;
+}
+
+#faq .section-title {
+  color: white;
+}
+
+.faq-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Force dropdowns to be white cards on top */
+.faq-item {
+  background: white;
+  color: #1e293b;
+  border-radius: 8px;
+  padding: 0;
+}
+
+/* FAQ Section Background */
+.faq-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 80px 0;
+}
+
+.faq-section .section-title {
+  color: white;
+}
+
+/* FAQ Content */
+.faq-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* FAQ Item */
+.faq-item {
+  background: white;
+  color: #1e293b;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* FAQ Question */
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1.5rem;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.faq-question:focus {
+  outline: none;
+}
+
+/* FAQ Arrow */
+.faq-arrow {
+  transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when active */
+.faq-question.active .faq-arrow {
+  transform: rotate(90deg);
+}
+
+/* FAQ Answer */
+/* Remove white background from dropdown answer */
+.faq-answer {
+  background: transparent; /* make answer background transparent */
+  color: white;            /* text color white to show on gradient */
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1.5rem;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-answer.open {
+  padding: 1rem 1.5rem;
+}
+
+/* Answer Text */
+.faq-answer p {
+  margin: 0;
+  font-size: 1rem;
+  color: white; /* white text for readability */
+}
+
+/* Remove box shadow and border from faq items */
+.faq-item {
+  background: transparent;
+  border-radius: 0;
+  margin-bottom: 0.5rem;
+  box-shadow: none;
+}
+
