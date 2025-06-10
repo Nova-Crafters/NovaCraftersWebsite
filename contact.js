@@ -1,4 +1,4 @@
-// Form validation and submission
+// Form validation and submission with actual Formspree integration
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -45,28 +45,96 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         isValid = false;
     }
     
-    // 501(c)(3) certification validation - Optional
-    // This field is now optional, so no validation needed
-    
     if (!isValid) return;
     
-    // Simulate form submission
+    // Submit to Formspree
+    submitToFormspree(formData);
+});
+
+async function submitToFormspree(formData) {
     const submitBtn = document.querySelector('.submit-btn');
     const originalText = submitBtn.textContent;
     
+    // Show loading state
     submitBtn.textContent = 'Submitting...';
     submitBtn.disabled = true;
     
-    // Simulate API call delay
-    setTimeout(() => {
-        // Success message
-        showSuccessMessage();
-        this.reset();
-        updateCharacterCount();
+    try {
+        const response = await fetch('https://formspree.io/f/xnnvpkgg', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            // Success
+            showSuccessMessage();
+            document.getElementById('contactForm').reset();
+            updateCharacterCount();
+        } else {
+            // Handle Formspree validation errors
+            const data = await response.json();
+            if (data.errors) {
+                handleFormspreeErrors(data.errors);
+            } else {
+                throw new Error('Form submission failed');
+            }
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showErrorMessage('Sorry, there was an error sending your message. Please try again or contact us directly at help.novacrafters@gmail.com');
+    } finally {
+        // Reset button state
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-    }, 2000);
-});
+    }
+}
+
+function handleFormspreeErrors(errors) {
+    errors.forEach(error => {
+        if (error.field) {
+            const errorElementId = error.field + 'Error';
+            const errorElement = document.getElementById(errorElementId);
+            if (errorElement) {
+                showError(errorElementId, error.message);
+            }
+        }
+    });
+}
+
+function showErrorMessage(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        z-index: 10000;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
+        animation: slideIn 0.3s ease-out;
+        max-width: 400px;
+    `;
+    
+    errorDiv.textContent = message;
+    document.body.appendChild(errorDiv);
+    
+    // Remove error message after 6 seconds
+    setTimeout(() => {
+        errorDiv.style.animation = 'slideIn 0.3s ease-out reverse';
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.parentNode.removeChild(errorDiv);
+            }
+        }, 300);
+    }, 6000);
+}
 
 // Character counter for message field
 const messageField = document.getElementById('message');
@@ -218,7 +286,7 @@ function showSuccessMessage() {
         animation: slideIn 0.3s ease-out;
     `;
     
-    // Add CSS animation
+    // Add CSS animation if not already present
     if (!document.getElementById('successAnimation')) {
         const style = document.createElement('style');
         style.id = 'successAnimation';
