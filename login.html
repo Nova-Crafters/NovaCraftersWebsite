@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - NovaCrafters</title>
     <link rel="stylesheet" href="login.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <!-- Header -->
@@ -25,33 +26,44 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="login-container">
-        <h1 class="welcome-title">Welcome Back!</h1>
-        
-        <form>
-            <div class="form-group">
-                <input type="email" class="input-field" placeholder="Enter Email" required>
+            <h1 class="welcome-title">Welcome Back!</h1>
+
+            <form>
+                <div class="form-group">
+                    <input type="email" class="input-field" placeholder="Enter Email" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="input-field" placeholder="Enter Password" required>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+
+            <div class="divider">or continue with</div>
+
+            <!-- Google Sign-In -->
+            <div id="g_id_onload"
+                data-client_id="234269422526-mslamp89qps0ojdmdrqvtj20c8hv3vqi.apps.googleusercontent.com"
+                data-callback="handleGoogleCallback"
+                data-auto_prompt="false">
             </div>
-            
-            <div class="form-group">
-                <input type="password" class="input-field" placeholder="Enter Password" required>
+
+            <div class="g_id_signin"
+                data-type="standard"
+                data-shape="rectangular"
+                data-theme="outline"
+                data-text="sign_in_with"
+                data-size="large">
             </div>
-            
-            <button type="submit" class="login-btn">Login</button>
-        </form>
-        
-        <div class="divider">or continue with</div>
-        
-        <button type="button" class="google-btn">
-            <div class="google-icon"></div>
-            Login Through Google
-        </button>
-        
-        <div class="footer-links">
-            Don't have an account? <a href="#signup">Sign up.</a><br>
-            Forgot your password? <a href="#reset">Reset password.</a>
+
+            <div class="footer-links">
+                Don't have an account? <a href="#signup">Sign up.</a><br>
+                Forgot your password? <a href="#reset">Reset password.</a>
+            </div>
         </div>
     </div>
-    </div>
+
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -60,6 +72,29 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Google callback function
+        function handleGoogleCallback(response) {
+            const jwt = response.credential;
+            const payload = JSON.parse(atob(jwt.split('.')[1]));
+
+            const googleUser = {
+                id: payload.sub,
+                email: payload.email,
+                name: payload.name,
+                provider: 'google'
+            };
+
+            const session = authService.db.createSession(googleUser.id);
+            authService.setSession(session.id);
+            authService.showSuccessMessage('Google login successful! Redirecting...');
+
+            setTimeout(() => {
+                authService.redirectToDashboard();
+            }, 1500);
+        }
+    </script>
     <script src="login.js"></script>
 </body>
 </html>
