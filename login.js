@@ -291,10 +291,14 @@ class AuthService {
     // GOOGLE SIGN-IN SETUP
     // ================================
     initGoogleSignIn() {
-        google.accounts.id.initialize({
-            client_id: "YOUR_CLIENT_ID.apps.googleusercontent.com",
-            callback: this.handleCredentialResponse.bind(this)
-        });
+        google.accounts.id.renderButton(
+            document.querySelector('.google-btn'),
+            {
+              theme: "outline",
+              size: "large",
+              width: "100%"
+            }
+          );          
 
         // Render the Google Sign-In button inside the existing .google-btn container
         google.accounts.id.renderButton(
