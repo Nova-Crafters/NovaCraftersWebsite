@@ -1,0 +1,157 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: #f8fafc;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+header {
+  background: #fff;
+  padding: 1rem 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.nav-links a:hover {
+  color: #667eea;
+}
+.user-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1.5rem;
+}
+.user-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+  vertical-align: middle;
+  fill: #667eea;
+  background: #f3f4f6;
+  border-radius: 50%;
+  padding: 3px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+.username {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+  margin-left: 0.25rem;
+}
+.projects-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 140px 0 80px;
+  margin-top: 80px;
+  text-align: center;
+}
+.projects-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.projects-subtitle {
+  font-size: 1.3rem;
+  opacity: 0.95;
+  margin-bottom: 0;
+}
+.projects-list-section {
+  padding: 60px 0;
+}
+.projects-placeholder {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(102,126,234,0.08);
+  padding: 60px 40px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.projects-placeholder h2 {
+  color: #667eea;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.projects-placeholder p {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+footer {
+  background: #1e293b;
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+  margin-top: 4rem;
+}
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+}
+footer p {
+  color: #94a3b8;
+  max-width: 800px;
+}
+@media (max-width: 768px) {
+  .projects-hero {
+    padding: 100px 0 50px;
+  }
+  .projects-title {
+    font-size: 2rem;
+  }
+  .projects-placeholder {
+    padding: 30px 15px;
+  }
+  .nav-links {
+    gap: 1rem;
+    font-size: 14px;
+  }
+}
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+  .projects-hero {
+    padding: 70px 0 30px;
+  }
+  .projects-title {
+    font-size: 1.5rem;
+  }
+  .username {
+    display: none;
+  }
+} 

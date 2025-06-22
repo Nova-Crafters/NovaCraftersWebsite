@@ -95,12 +95,14 @@ class AuthService {
         this.db = new UserDatabase();
         this.initializeEventListeners();
         this.initGoogleSignIn();
+        this.updateNavBar(); // Update nav bar on load
     }
 
     initializeEventListeners() {
         document.addEventListener('DOMContentLoaded', () => {
             this.setupLoginForm();
             this.checkExistingSession();
+            this.updateNavBar(); // Update nav bar on DOM load
         });
     }
 
@@ -135,6 +137,8 @@ class AuthService {
 
             const session = this.db.createSession(user.id);
             this.setSession(session.id);
+            localStorage.setItem('username', user.name || 'User');
+            this.updateNavBar();
             this.showSuccessMessage('Login successful! Redirecting...');
 
             setTimeout(() => {
@@ -182,6 +186,8 @@ class AuthService {
     clearSession() {
         localStorage.removeItem('session_id');
         localStorage.removeItem('login_time');
+        localStorage.removeItem('username');
+        this.updateNavBar();
     }
 
     redirectToIndexPage() {
@@ -329,8 +335,9 @@ class AuthService {
         // Here you could create or validate user in your db
         // For this example, we just create a session with Google user id
         let user = this.db.getUserByEmail(payload.email);
+        let isNewUser = false;
         if (!user) {
-            // Create a new user record with verified = true (since from Google)
+            isNewUser = true;
             user = {
                 id: payload.sub,
                 email: payload.email,
@@ -344,18 +351,255 @@ class AuthService {
 
         const session = this.db.createSession(user.id);
         this.setSession(session.id);
-        this.showSuccessMessage('Google login successful! Redirecting...');
+        // Prompt for username if new Google user
+        if (isNewUser) {
+            this.promptForUsername(user.name || '');
+        } else {
+            localStorage.setItem('username', user.name || 'User');
+            this.updateNavBar();
+            this.showSuccessMessage('Google login successful! Redirecting...');
+            setTimeout(() => {
+                this.redirectToDashboard();
+            }, 1500);
+        }
+    }
 
+    promptForUsername(defaultName) {
+        let username = '';
+        while (!username || username.length < 2) {
+            username = prompt('Welcome! Please choose a username to display:', defaultName || '');
+            if (username === null) return; // Cancelled
+            username = username.trim();
+        }
+        localStorage.setItem('username', username);
+        this.saveUsernameToUser(username);
+        this.updateNavBar();
+        this.showSuccessMessage('Username set! Redirecting...');
         setTimeout(() => {
             this.redirectToDashboard();
-        }, 1500);
+        }, 1200);
+    }
+
+    saveUsernameToUser(username) {
+        // Save username to user in DB (for Google users)
+        const sessionId = this.getSession();
+        if (!sessionId) return;
+        const session = this.db.getSession(sessionId);
+        if (!session) return;
+        for (let [email, user] of this.db.users.entries()) {
+            if (user.id === session.userId) {
+                user.name = username;
+                this.db.users.set(email, user);
+                break;
+            }
+        }
+    }
+
+    updateNavBar() {
+        const userNav = document.getElementById('user-nav');
+        const loginLink = document.getElementById('login-link');
+        const usernameDisplay = document.getElementById('username-display');
+        const sessionId = this.getSession();
+        const username = localStorage.getItem('username');
+        if (sessionId && username) {
+            if (userNav) userNav.style.display = 'flex';
+            if (loginLink) loginLink.style.display = 'none';
+            if (usernameDisplay) usernameDisplay.textContent = username;
+        } else {
+            if (userNav) userNav.style.display = 'none';
+            if (loginLink) loginLink.style.display = '';
+            if (usernameDisplay) usernameDisplay.textContent = '';
+        }
     }
 }
+
+// ================================
+// MODAL & UI LOGIC
+// ================================
+function setupModalsAndToggles(authService) {
+  function ready(fn) {
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+  ready(() => {
+    // Modal elements
+    const signupModal = document.getElementById('signup-modal');
+    const forgotModal = document.getElementById('forgot-modal');
+    const openSignup = document.getElementById('open-signup');
+    const openForgot = document.getElementById('open-forgot');
+    const closeSignup = document.getElementById('close-signup');
+    const closeForgot = document.getElementById('close-forgot');
+    // Show/hide password
+    const loginPassword = document.getElementById('login-password');
+    const togglePassword = document.getElementById('toggle-password');
+    const eyeIcon = document.getElementById('eye-icon');
+    const signupPassword = document.getElementById('signup-password');
+    const toggleSignupPassword = document.getElementById('toggle-signup-password');
+    const eyeSignup = document.getElementById('eye-signup');
+
+    // Open/close modals
+    if (openSignup && signupModal) {
+      openSignup.onclick = (e) => {
+        e.preventDefault();
+        signupModal.style.display = 'flex';
+        console.log('[Signup Modal] Opened');
+      };
+    } else {
+      console.warn('[Signup Modal] openSignup or signupModal missing');
+    }
+    if (closeSignup && signupModal) {
+      closeSignup.onclick = () => {
+        signupModal.style.display = 'none';
+        document.getElementById('signup-message').textContent = '';
+        console.log('[Signup Modal] Closed');
+      };
+    } else {
+      console.warn('[Signup Modal] closeSignup or signupModal missing');
+    }
+    if (openForgot && forgotModal) {
+      openForgot.onclick = (e) => { e.preventDefault(); forgotModal.style.display = 'flex'; };
+    }
+    if (closeForgot && forgotModal) {
+      closeForgot.onclick = () => { forgotModal.style.display = 'none'; document.getElementById('forgot-message').textContent = ''; };
+    }
+    window.onclick = function(event) {
+      if (event.target === signupModal) { signupModal.style.display = 'none'; document.getElementById('signup-message').textContent = ''; }
+      if (event.target === forgotModal) { forgotModal.style.display = 'none'; document.getElementById('forgot-message').textContent = ''; }
+    };
+
+    // Show/hide password (login)
+    if (togglePassword && loginPassword && eyeIcon) {
+      togglePassword.onclick = () => {
+        if (loginPassword.type === 'password') {
+          loginPassword.type = 'text';
+          eyeIcon.innerHTML = '<circle cx="12" cy="12" r="10" stroke="#667eea" stroke-width="2" fill="none"/><line x1="4" y1="4" x2="20" y2="20" stroke="#667eea" stroke-width="2"/>';
+        } else {
+          loginPassword.type = 'password';
+          eyeIcon.innerHTML = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>';
+        }
+      };
+    }
+    // Show/hide password (signup)
+    if (toggleSignupPassword && signupPassword && eyeSignup) {
+      toggleSignupPassword.onclick = () => {
+        if (signupPassword.type === 'password') {
+          signupPassword.type = 'text';
+          eyeSignup.innerHTML = '<circle cx="12" cy="12" r="10" stroke="#667eea" stroke-width="2" fill="none"/><line x1="4" y1="4" x2="20" y2="20" stroke="#667eea" stroke-width="2"/>';
+        } else {
+          signupPassword.type = 'password';
+          eyeSignup.innerHTML = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>';
+        }
+      };
+    }
+    // Show/hide password (signup confirm)
+    const signupConfirmPassword = document.getElementById('signup-confirm-password');
+    const toggleSignupConfirmPassword = document.getElementById('toggle-signup-confirm-password');
+    const eyeSignupConfirm = document.getElementById('eye-signup-confirm');
+    if (toggleSignupConfirmPassword && signupConfirmPassword && eyeSignupConfirm) {
+      toggleSignupConfirmPassword.onclick = () => {
+        if (signupConfirmPassword.type === 'password') {
+          signupConfirmPassword.type = 'text';
+          eyeSignupConfirm.innerHTML = '<circle cx="12" cy="12" r="10" stroke="#667eea" stroke-width="2" fill="none"/><line x1="4" y1="4" x2="20" y2="20" stroke="#667eea" stroke-width="2"/>';
+        } else {
+          signupConfirmPassword.type = 'password';
+          eyeSignupConfirm.innerHTML = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>';
+        }
+      };
+    }
+
+    // Sign up logic
+    const signupForm = document.getElementById('signup-form');
+    if (signupForm) {
+      signupForm.onsubmit = function(e) {
+        e.preventDefault();
+        const email = document.getElementById('signup-email').value.trim();
+        const password = document.getElementById('signup-password').value;
+        const confirmPassword = document.getElementById('signup-confirm-password').value;
+        const rememberMe = document.getElementById('signup-remember-me').checked;
+        const msg = document.getElementById('signup-message');
+        msg.style.color = '#dc2626';
+        if (!email || !password || !confirmPassword) {
+          msg.textContent = 'All fields are required.';
+          console.log('[Signup] Missing fields');
+          return;
+        }
+        if (!authService.validateEmail(email)) {
+          msg.textContent = 'Please enter a valid email address.';
+          console.log('[Signup] Invalid email');
+          return;
+        }
+        if (password.length < 6) {
+          msg.textContent = 'Password must be at least 6 characters.';
+          console.log('[Signup] Password too short');
+          return;
+        }
+        if (password !== confirmPassword) {
+          msg.textContent = 'Passwords do not match.';
+          console.log('[Signup] Passwords do not match');
+          return;
+        }
+        try {
+          authService.db.createUser(email, password, email.split('@')[0]);
+          msg.style.color = '#16a34a';
+          msg.textContent = 'Account created! You can now log in.';
+          console.log('[Signup] Success:', email);
+          // If remember me, set cookie for session persistence
+          if (rememberMe) {
+            document.cookie = `remember_email=${encodeURIComponent(email)}; path=/; max-age=2592000`;
+          }
+          setTimeout(() => {
+            document.getElementById('signup-modal').style.display = 'none';
+            msg.textContent = '';
+          }, 1200);
+        } catch (err) {
+          msg.textContent = err.message || 'Account creation failed.';
+          console.error('[Signup] Error:', err);
+        }
+      };
+    } else {
+      console.warn('[Signup] signupForm missing');
+    }
+
+    // Forgot password logic (simulated)
+    const forgotForm = document.getElementById('forgot-form');
+    if (forgotForm) {
+      forgotForm.onsubmit = function(e) {
+        e.preventDefault();
+        const email = document.getElementById('forgot-email').value.trim();
+        const msg = document.getElementById('forgot-message');
+        msg.style.color = '#dc2626';
+        if (!email) {
+          msg.textContent = 'Please enter your email.';
+          return;
+        }
+        if (!authService.validateEmail(email)) {
+          msg.textContent = 'Please enter a valid email address.';
+          return;
+        }
+        const user = authService.db.getUserByEmail(email);
+        if (!user) {
+          msg.textContent = 'No account found with that email.';
+          return;
+        }
+        msg.style.color = '#16a34a';
+        msg.textContent = 'A password reset link would be sent to your email (simulated).';
+        setTimeout(() => {
+          document.getElementById('forgot-modal').style.display = 'none';
+          msg.textContent = '';
+        }, 1800);
+      };
+    }
+  });
+}
+// ================================
+// END MODAL & UI LOGIC
+// ================================
 
 // ================================
 // INITIALIZE APPLICATION
 // ================================
 const authService = new AuthService();
+setupModalsAndToggles(authService);
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { AuthService, UserDatabase };
