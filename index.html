@@ -199,23 +199,6 @@
       </div>
     </div>
   </section>
-  
-      
-      <script>
-        document.querySelectorAll('.faq-question').forEach(button => {
-          button.addEventListener('click', () => {
-            const answer = button.nextElementSibling;
-            const arrow = button.querySelector('.arrow');
-      
-            button.classList.toggle('active');
-            answer.style.maxHeight = answer.style.maxHeight ? null : answer.scrollHeight + "px";
-            arrow.classList.toggle('rotate');
-          });
-        });
-      </script>
-      
-      
-
     <!-- Contact Section -->
     <section class="section section-alt" id="contact">
         <div class="container">
@@ -236,6 +219,8 @@
             </div>
         </div>
     </footer>
-    <script src="login.js"></script>
+    <script src="index.js"></script>
+    <script> window.chtlConfig = { chatbotId: "2616644261" } </script>
+    <script async data-id="2616644261" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 </body>
 </html>
