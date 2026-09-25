@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaCrafters — Free websites for nonprofits and small businesses</title>
+  <meta name="description" content="NovaCrafters is a 501(c)(3) nonprofit that designs and builds free websites for nonprofits and small businesses. We build it, launch it, and show you how to update it.">
 
-  <!-- SEO Meta Tags -->
-  <meta name="keywords" content="free web design for nonprofits, free website design for non-profit organizations, nonprofit web design agency, nonprofit website design companies, nonprofit website designers, free web design services for small nonprofits, NovaCrafters, Nova Crafters, Nova-crafters">
-  <meta name="description" content="NovaCrafters offers free web design services for small nonprofits and community organizations.">
-
-  <title>NovaCrafters</title>
   <link rel="icon" type="image/png" href="roundednova.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Serif+4:wght@400;600&display=swap">
   <link rel="stylesheet" href="styles.css">
+  <script src="nav.js"></script>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M2DYWWW21"></script>
@@ -22,205 +23,218 @@
   </script>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav id="main-nav">
-                <div class="logo">NovaCrafters</div>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="login.html" id="login-link">Login</a></li>
-                </ul>
-                <div class="user-nav" id="user-nav" style="display:none">
-                    <span class="user-icon" id="user-icon" aria-label="User" tabindex="0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-2.21 3.58-4 8-4s8 1.79 8 4"/></svg>
-                    </span>
-                    <span class="username" id="username-display"></span>
-                </div>
-            </nav>
-        </div>
-    </header>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Empowering Nonprofits with <span class="highlight"></span>Free</span> Websites</h1>
-                    <p>Elevate your nonprofit or buisness with a free, expertly designed website. Our dedicated team of designers and developers is here to enhance your online presence and support your cause. Let's build something impactful together, at no cost to your organization.</p>
-                    <a href="contact.html" class="cta-button">Get Started Today</a>
-                </div>
-                
-                <div class="hero-image">
-                    <img src="NovaCraftersLogo.webp" alt="Organization Logo" width="500px">
-                </div>
-            </div>
-        </div>
-    </section>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__mark" src="roundednova.png" alt="" width="40" height="40">
+        <span>NovaCrafters</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+        <ul class="site-nav__list" id="site-menu">
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Who We Are Section -->
-    <section class="section" id="about">
-        <div class="container">
-            <h2 class="section-title">Who We Are</h2>
-            <div class="section-content">
-                <p>NovaCrafters is a 501c3 Certifed not-for-profit organization with a goal of creating free websites for other non profit organizations and emerging small buisnesses. NovaCrafters was founded by a team friends in high school with a passion for website development and community service. Click learn more to read more about the organization.</p>
-                <div class="learn-more">
-                    <a href="about.html" class="learn-more-btn">Learn More</a>
-                </div>
-            </div>
+  <main id="main" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap grid">
+        <div class="hero__text">
+          <h1 id="hero-title"><span class="mark">Free</span> websites for nonprofits and small businesses.</h1>
+          <p class="lede">NovaCrafters is a 501(c)(3) nonprofit started by a group of high school friends. We design and build your website, launch it, and show you how to update it. You don't pay anything.</p>
+          <a class="button" href="contact.html">Request a website</a>
         </div>
-    </section>
-
-    <section class="section section-alt" id="how-it-works">
-        <div class="container">
-            <h2 class="section-title">How It Works</h2>
-            <div class="steps-grid">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Connect with Us</h3>
-                    <p>Reach out to our team by filling out a simple form or contacting us directly. Share your nonprofit's/buisnesses mission, goals, and any specific website requirements.</p>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Collaborative Discovery</h3>
-                    <p>We'll schedule a consultation to better understand your organization's unique needs. Together, we'll define the scope, design preferences, and functionalities for your website.</p>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Design & Development Kickoff</h3>
-                    <p>Once we have a clear vision, our team will begin crafting your custom website. You'll have opportunities for feedback and revisions throughout the process.</p>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3>Review & Approval</h3>
-                    <p>We'll present the initial website design for your review. Collaborate with us to fine-tune the details, ensuring the site aligns seamlessly with your brand and mission.</p>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">5</div>
-                    <h3>Launch & Training</h3>
-                    <p>Upon your approval, we'll launch your new or updated website. Our team will provide training and support, ensuring your organization is equipped to manage and update the site independently.</p>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">6</div>
-                    <h3>Ongoing Support</h3>
-                    <p>Even after launch, we're here to support you. Whether you need technical assistance, additional features, or updates, count on us as your ongoing digital partners.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <!-- FAQ Section -->
-<section class="section faq-section" id="faq">
-    <div class="container">
-      <h2 class="section-title">Frequently Asked Questions</h2>
-      <div class="faq-content">
-        <div class="faq-item">
-          <button class="faq-question">
-            What is the mission of NovaCrafters?
-            <span class="faq-arrow">&#9654;</span>
-          </button>
-          <div class="faq-answer">
-            <p>Our mission is to provide free, expert-designed websites to nonprofit organizations and small buisnesses, helping them establish a strong online presence and achieve their missions.</p>
+        <div class="hero__tile">
+          <div class="hero__crop">
+            <img src="NovaCraftersLogo.webp" alt="NovaCrafters logo" width="493" height="394">
           </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            Who are the founders of NovaCrafters?
-            <span class="faq-arrow">&#9654;</span>
-          </button>
-          <div class="faq-answer">
-            <p>NovaCrafters was founded by a team of high school friends passionate about website development and community service.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            Why do you offer your services for free?
-            <span class="faq-arrow">&#9654;</span>
-          </button>
-          <div class="faq-answer">
-            <p>We believe in giving back to the community by leveraging our skills to empower emerging organizations, allowing them to reach a broader audience and maximize their impact.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            What types of organizations do you work with?
-            <span class="faq-arrow">&#9654;</span>
-          </button>
-          <div class="faq-answer">
-            <p>We work with informal/certified nonprofit organizations or emerging/underresourced buisnesses across various sectors to enhance their digital presence.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            What services do you offer?
-            <span class="faq-arrow">&#9654;</span>
-          </button>
-          <div class="faq-answer">
-            <p>Our services include custom website design and development, content management system integration, and ongoing support to ensure your website remains effective and up-to-date. Also, it is important to note that we can only offer frontend services.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            How can a nonprofit organization request your services?
-            <span class="faq-arrow">&#9654;</span>
-          </button>
-          <div class="faq-answer">
-            <p>Nonprofits can request our services by filling out the contact form on our website or reaching out to us directly via email. We'll then schedule a consultation to discuss your needs.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            Do you offer ongoing support after the website is launched?
-            <span class="faq-arrow">&#9654;</span>
-          </button>
-          <div class="faq-answer">
-            <p>Yes, we provide ongoing support to assist with technical issues, updates, and any additional features your organization may require post-launch.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            What makes NovaCrafters different from other web design services?
-            <span class="faq-arrow">&#9654;</span>
-          </button>
-          <div class="faq-answer">
-            <p>Our commitment to providing high-quality, free web design services exclusively to nonprofits sets us apart. We focus on understanding each organization's unique mission to create impactful digital solutions.</p>
-          </div>
-        </div>
         </div>
       </div>
-    </div>
-  </section>
-    <!-- Contact Section -->
-    <section class="section section-alt" id="contact">
-        <div class="container">
-            <div class="contact-content">
-                <h2 class="section-title">Still Have Questions? Reach Out!</h2>
-                <p class="contact-subtitle">Schedule a free consultation to learn more! NovaCrafters is a nonprofit organization dedicated to empowering nonprofits with free websites. This is the official website of NovaCrafters. The domain nova-crafters.com is owned and operated by NovaCrafters. Contact: service@nova-crafters.com</p>
-                <a href="contact.html" class="cta-button" target="_blank">Schedule a Consultation</a>
-            </div>
-        </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">NovaCrafters</div>
-                <p>&copy; 2025 NovaCrafters. All rights reserved. 501c3 Certified Nonprofit Organization.</p>
-            </div>
+    <section class="terms" aria-labelledby="terms-title">
+      <div class="wrap grid">
+        <h2 class="terms__title" id="terms-title">What we do</h2>
+        <dl class="terms__list">
+          <div class="terms__row">
+            <dt class="label">Who</dt>
+            <dd>Nonprofits, formal or informal, and small businesses, including new and under-resourced ones.</dd>
+          </div>
+          <div class="terms__row">
+            <dt class="label">What</dt>
+            <dd>Frontend websites: the pages people see and read. We don't build backend systems such as user accounts or databases.</dd>
+          </div>
+          <div class="terms__row">
+            <dt class="label">Cost</dt>
+            <dd>Free. We don't charge for any part of the work.</dd>
+          </div>
+          <div class="terms__row">
+            <dt class="label">After launch</dt>
+            <dd>We show you how to update the site yourself, and we help with technical problems and updates when you need it.</dd>
+          </div>
+        </dl>
+        <p class="terms__more"><a href="about.html">More about who we are</a></p>
+      </div>
+    </section>
+
+    <section class="section how" id="how-it-works" aria-labelledby="how-title">
+      <div class="wrap grid">
+        <div class="section__head">
+          <h2 id="how-title">How it works</h2>
+          <p>Six steps, from your first message to after launch.</p>
         </div>
-    </footer>
-    <script src="index.js"></script>
-    <script> window.chtlConfig = { chatbotId: "2616644261" } </script>
-    <script async data-id="2616644261" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+        <ol class="steps" role="list">
+          <li class="step">
+            <span class="step__num" aria-hidden="true">01</span>
+            <div>
+              <h3>Contact us</h3>
+              <p>Fill out the form on our <a href="contact.html">Contact page</a> or email <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a>. Tell us what your organization does and what you want the website to do.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__num" aria-hidden="true">02</span>
+            <div>
+              <h3>Free consultation</h3>
+              <p>We schedule a call to talk through what pages you need, how the site should look, and what it needs to do.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__num" aria-hidden="true">03</span>
+            <div>
+              <h3>Design and build</h3>
+              <p>We design and build your site. You can give feedback and ask for changes along the way.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__num" aria-hidden="true">04</span>
+            <div>
+              <h3>Review and approval</h3>
+              <p>We show you the finished design. We adjust the details with you until you approve it.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__num" aria-hidden="true">05</span>
+            <div>
+              <h3>Launch and training</h3>
+              <p>We launch the site and show you how to update it yourself.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__num" aria-hidden="true">06</span>
+            <div>
+              <h3>Help after launch</h3>
+              <p>If something stops working, or you need an update or a new feature, contact us and we'll help.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="faq" aria-labelledby="faq-title">
+      <div class="wrap grid">
+        <div class="section__head">
+          <h2 id="faq-title">Questions</h2>
+        </div>
+        <div class="faq">
+          <details class="faq__item">
+            <summary><span class="faq__q">What does NovaCrafters do?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>We design and build websites for nonprofits and small businesses, for free, so they can have a working website without paying for one.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q">Who started NovaCrafters?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>A group of friends in high school who like building websites and wanted to use that skill for community service.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q">Why is it free?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>We started NovaCrafters as community service. We want small organizations to be able to reach more people online, and we don't want cost to be the reason they can't.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q">Who can ask for a website?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>Nonprofits, whether they are registered 501(c)(3) organizations or informal groups, and small businesses, including new and under-resourced ones.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q">What do you build?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>Frontend websites: the pages your visitors see and read. We design the pages, build them, launch the site, and show you how to update it.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q">What won't you build?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>Backend systems, such as user accounts or databases. If your site needs one of these, we can't build that part.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q">What does it cost?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>Nothing. The service is free.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q">How do I request a website?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>Fill out the form on our <a href="contact.html">Contact page</a> or email <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a>. We'll reply to schedule a free consultation about what you need.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q">Do you help after the site launches?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>Yes. If you run into a technical problem, or need an update or a new feature, contact us and we'll help.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q">How are you different from other web designers?</span><span class="faq__icon" aria-hidden="true">+</span></summary>
+            <div class="faq__a">
+              <p>We are a nonprofit, we don't charge, and we work only with nonprofits and small businesses.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="wrap grid">
+        <h2 class="cta__title" id="cta-title">Want a website for your organization?</h2>
+        <div class="cta__body">
+          <p>Tell us what your organization does and what you need. We'll reply to set up a free consultation.</p>
+          <a class="button" href="contact.html">Request a website</a>
+          <p class="small">Or email <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap grid">
+      <p class="site-footer__name">NovaCrafters</p>
+      <div class="site-footer__meta">
+        <ul class="site-footer__links label">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <p><a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a></p>
+        <p>&copy; <span id="year">2026</span> NovaCrafters. 501(c)(3) nonprofit organization.</p>
+        <p class="site-footer__fine">nova-crafters.com is the official website of NovaCrafters.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script> window.chtlConfig = { chatbotId: "2616644261" } </script>
+  <script async data-id="2616644261" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 </body>
 </html>

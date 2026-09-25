@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — NovaCrafters</title>
+  <meta name="description" content="Who NovaCrafters is: a 501(c)(3) nonprofit started by high school friends that builds free frontend websites for nonprofits and small businesses, and why we don't charge.">
 
-  <!-- SEO Meta Tags -->
-  <meta name="keywords" content="free web design for nonprofits, free website design for non-profit organizations, nonprofit web design agency, nonprofit website design companies, nonprofit website designers, free web design services for small nonprofits, NovaCrafters, Nova Crafters">
-  <meta name="description" content="NovaCrafters provides free web design services for small nonprofits and community-driven organizations.">
-
-  <title>NovaCrafters</title>
   <link rel="icon" type="image/png" href="roundednova.png">
-  <link rel="stylesheet" href="about.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Serif+4:wght@400;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script src="nav.js"></script>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M2DYWWW21"></script>
@@ -21,63 +22,71 @@
     gtag('config', 'G-7M2DYWWW21');
   </script>
 </head>
-
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <header>
-    <div class="header-container">
-      <div class="logo">NovaCrafters</div>
-      <nav id="main-nav" class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="projects.html">Projects</a>
-        <a href="login.html" id="login-link">Login</a>
-        <span class="user-nav" id="user-nav" style="display:none">
-            <span class="user-icon" id="user-icon" aria-label="User" tabindex="0">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-2.21 3.58-4 8-4s8 1.79 8 4"/></svg>
-            </span>
-            <span class="username" id="username-display"></span>
-        </span>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__mark" src="roundednova.png" alt="" width="40" height="40">
+        <span>NovaCrafters</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+        <ul class="site-nav__list" id="site-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html" aria-current="page">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
       </nav>
     </div>
   </header>
 
-  <div class="container">
-    <div class="hero">
-      <h2>We Want You To Be Seen</h2>
-      <p>Our mission is to empower nonprofits by building beautiful, functional websites — completely free.</p>
-    </div>
+  <main id="main" tabindex="-1">
+    <section class="about">
+      <div class="wrap grid">
+        <h1 class="about__statement">We want you to be seen.</h1>
 
-    <div class="about-content">
-      <div class="about-text">
-        <p>
-          We are NovaCrafters, a 501c3 Certified Organization founded by a group of friends passionate about design, development, and community service. Our mission is to design, develop, and update websites for other nonprofits — entirely free of charge.
-        </p>
-        <p>
-          You might wonder why we do this. It's simple: we believe a strong digital presence can help amplify a nonprofit or buisnesses voice and impact. By offering professional web design services at no cost, we aim to help smaller organizations reach a broader audience and achieve their missions.
-        </p>
-        <p>
-          Over the years, we've had a growing interest in web development work and we have completed many projects. Our dedication to both technology and community allows us to support organizations doing good — while doing what we love.
-        </p>
-        <p>
-          <a href="https://oilyourhair.com">See some of our latest work →</a>
-        </p>
-      </div>
+        <div class="about__body">
+          <p class="lede">NovaCrafters is a 501(c)(3) nonprofit. We design, build, and update websites for nonprofits and small businesses, free of charge.</p>
 
-      <div class="about-img">
-        <img src="novaposter1.webp" alt="NovaCrafters Logo">
-        <div class="caption">NovaCrafters</div>
-      </div>
-    </div>
-  </div>
+          <h2>Who we are</h2>
+          <p>We are a group of friends who started NovaCrafters in high school. We like design and web development, and we wanted to use those skills for community service.</p>
 
-  <footer>
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-logo">NovaCrafters</div>
-            <p>&copy; 2025 NovaCrafters. All rights reserved. 501c3 Certified Nonprofit Organization.</p>
+          <h2>Why we don't charge</h2>
+          <p>We think a clear website helps a nonprofit or small business reach more people. We don't charge, so that cost isn't what keeps a small organization from having one.</p>
+
+          <h2>Who we work with</h2>
+          <p>Nonprofits, formal or informal, and small businesses, including new and under-resourced ones. You don't need to be a registered 501(c)(3) to ask.</p>
+
+          <h2>What we build</h2>
+          <p>Frontend websites: the pages people see and read. We design the site, build it, launch it, and show you how to update it. After launch, we help with technical problems and updates.</p>
+          <p>We don't build backend systems such as user accounts or databases.</p>
+
+          <a class="button" href="contact.html">Request a website</a>
         </div>
+
+        <figure class="about__poster">
+          <img src="novaposter1.webp" width="563" height="845" loading="lazy" alt="NovaCrafters poster on a purple background. It shows the NovaCrafters logo, the line “Creating websites for businesses &amp; nonprofits,” an illustration of a website on a desktop monitor and a phone, a button reading “Visit nova-crafters.com,” a QR code labeled “Scan to visit our website,” and “YouTube: Novacrafters.”">
+          <figcaption class="label">The NovaCrafters poster</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap grid">
+      <p class="site-footer__name">NovaCrafters</p>
+      <div class="site-footer__meta">
+        <ul class="site-footer__links label">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <p><a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a></p>
+        <p>&copy; <span id="year">2026</span> NovaCrafters. 501(c)(3) nonprofit organization.</p>
+        <p class="site-footer__fine">nova-crafters.com is the official website of NovaCrafters.</p>
+      </div>
     </div>
   </footer>
 

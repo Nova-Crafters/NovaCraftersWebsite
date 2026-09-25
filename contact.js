@@ -1,265 +1,235 @@
-// Form validation and submission with actual Formspree integration
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Clear previous errors
-    clearErrors();
-    
-    // Get form data
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    // Validate form
-    let isValid = true;
-    
-    // Full name validation
-    if (!data.fullName || !data.fullName.trim()) {
-        showError('fullNameError', 'Full name is required');
-        isValid = false;
-    } else if (data.fullName.trim().length < 2) {
-        showError('fullNameError', 'Please enter a valid full name');
-        isValid = false;
-    }
-    
-    // Email validation
-    if (!data.email || !data.email.trim()) {
-        showError('emailError', 'Email is required');
-        isValid = false;
-    } else if (!isValidEmail(data.email)) {
-        showError('emailError', 'Please enter a valid email address');
-        isValid = false;
-    }
-    
-    // Organization validation
-    if (!data.organization || !data.organization.trim()) {
-        showError('organizationError', 'Organization is required');
-        isValid = false;
-    }
-    
-    // Message validation
-    if (!data.message || !data.message.trim()) {
-        showError('messageError', 'Message is required');
-        isValid = false;
-    } else if (data.message.trim().length < 10) {
-        showError('messageError', 'Please provide a more detailed message (minimum 10 characters)');
-        isValid = false;
-    }
-    
-    if (!isValid) return;
-    
-    // Submit to Formspree
-    submitToFormspree(formData);
+// Contact form: validation, Formspree submission, and inline status messages
+const FORMSPREE_URL = 'https://formspree.io/f/xnnvpkgg';
+const FALLBACK_EMAIL = 'service@nova-crafters.com';
+const MAX_MESSAGE_LENGTH = 1000;
+
+const form = document.getElementById('contactForm');
+const submitBtn = form.querySelector('.submit-btn');
+const formStatus = document.getElementById('formStatus');
+const formSuccess = document.getElementById('formSuccess');
+const messageField = document.getElementById('message');
+const characterCount = document.getElementById('characterCount');
+const fields = form.querySelectorAll('.form-input');
+
+// Our inline field errors replace the browser's validation pop-ups.
+// Without JavaScript the form still posts to Formspree, which validates on its side.
+form.noValidate = true;
+
+// Remember each field's own aria-describedby (e.g. the character counter)
+// so error messages can be added to it and removed again.
+fields.forEach(field => {
+    field.dataset.describedby = field.getAttribute('aria-describedby') || '';
 });
 
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Clear previous errors
+    clearErrors();
+    clearStatus();
+
+    // Validate every field
+    let firstInvalid = null;
+    fields.forEach(field => {
+        const message = getFieldError(field);
+        if (message) {
+            showError(field, message);
+            firstInvalid = firstInvalid || field;
+        }
+    });
+
+    if (firstInvalid) {
+        firstInvalid.focus();
+        return;
+    }
+
+    submitToFormspree(new FormData(this));
+});
+
+// Returns an error message for the field, or '' if it is valid
+function getFieldError(field) {
+    const value = field.value.trim();
+
+    switch (field.name) {
+        case 'fullName':
+            if (!value) return 'Full name is required';
+            if (value.length < 2) return 'Please enter a valid full name';
+            break;
+
+        case 'email':
+            if (!value) return 'Email is required';
+            if (!isValidEmail(value)) return 'Please enter a valid email address';
+            break;
+
+        case 'organization':
+            if (!value) return 'Organization is required';
+            break;
+
+        case 'message':
+            if (!value) return 'Message is required';
+            if (value.length < 10) return 'Please provide a more detailed message (minimum 10 characters)';
+            break;
+    }
+
+    return '';
+}
+
 async function submitToFormspree(formData) {
-    const submitBtn = document.querySelector('.submit-btn');
     const originalText = submitBtn.textContent;
-    
-    // Show loading state
-    submitBtn.textContent = 'Submitting...';
+
+    // Loading state
+    submitBtn.textContent = 'Sending…';
     submitBtn.disabled = true;
-    
+    submitBtn.classList.add('is-loading');
+    form.setAttribute('aria-busy', 'true');
+    setStatus('Sending your message…');
+
     try {
-        const response = await fetch('https://formspree.io/f/xnnvpkgg', {
+        const response = await fetch(FORMSPREE_URL, {
             method: 'POST',
             body: formData,
             headers: {
                 'Accept': 'application/json'
             }
         });
-        
+
         if (response.ok) {
-            // Success
-            showSuccessMessage();
-            document.getElementById('contactForm').reset();
-            updateCharacterCount();
+            showSuccess();
         } else {
-            // Handle Formspree validation errors
-            const data = await response.json();
-            if (data.errors) {
-                handleFormspreeErrors(data.errors);
+            // Formspree explains rejected submissions in an "errors" array
+            const data = await response.json().catch(() => ({}));
+            const errors = Array.isArray(data.errors) ? data.errors : [];
+
+            if (handleFormspreeErrors(errors)) {
+                showErrorMessage('Your message was not sent: our form service rejected some of the fields. Fix the fields marked above and try again.');
+            } else if (errors.length) {
+                const details = errors.map(error => error.message).filter(Boolean).join(' ');
+                showErrorMessage(`Your message was not sent: our form service rejected it (${details || 'status ' + response.status}). Try again in a few minutes.`);
             } else {
-                throw new Error('Form submission failed');
+                showErrorMessage(`Your message was not sent: our form service returned an error (status ${response.status}). Try again in a few minutes.`);
             }
         }
     } catch (error) {
-        console.error('Error:', error);
-        showErrorMessage('Sorry, there was an error sending your message. Please try again or contact us directly at help.novacrafters@gmail.com');
+        showErrorMessage('Your message was not sent: we could not reach our form service. Check your internet connection and try again.');
     } finally {
         // Reset button state
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
+        submitBtn.classList.remove('is-loading');
+        form.removeAttribute('aria-busy');
     }
 }
 
+// Shows Formspree's field errors under the matching fields; returns true if any matched
 function handleFormspreeErrors(errors) {
+    let matched = false;
     errors.forEach(error => {
-        if (error.field) {
-            const errorElementId = error.field + 'Error';
-            const errorElement = document.getElementById(errorElementId);
-            if (errorElement) {
-                showError(errorElementId, error.message);
-            }
+        const field = error.field && document.getElementById(error.field);
+        if (field) {
+            showError(field, error.message);
+            matched = true;
         }
     });
+    return matched;
 }
 
-function showErrorMessage(message) {
-    const errorDiv = document.createElement('div');
-    errorDiv.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-        color: white;
-        padding: 16px 24px;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
-        z-index: 10000;
-        font-weight: 600;
-        backdrop-filter: blur(10px);
-        animation: slideIn 0.3s ease-out;
-        max-width: 400px;
-    `;
-    
-    errorDiv.textContent = message;
-    document.body.appendChild(errorDiv);
-    
-    // Remove error message after 6 seconds
-    setTimeout(() => {
-        errorDiv.style.animation = 'slideIn 0.3s ease-out reverse';
-        setTimeout(() => {
-            if (errorDiv.parentNode) {
-                errorDiv.parentNode.removeChild(errorDiv);
-            }
-        }, 300);
-    }, 6000);
+function setStatus(text) {
+    formStatus.classList.remove('is-error');
+    formStatus.textContent = text;
+}
+
+function clearStatus() {
+    setStatus('');
+}
+
+function showErrorMessage(reason) {
+    const message = document.createElement('p');
+    const link = document.createElement('a');
+    link.className = 'email';
+    link.href = 'mailto:' + FALLBACK_EMAIL;
+    link.textContent = FALLBACK_EMAIL;
+    message.append(reason + ' You can also email us directly at ', link, '.');
+
+    formStatus.textContent = '';
+    formStatus.classList.add('is-error');
+    formStatus.append(message);
+}
+
+function showSuccess() {
+    form.reset();
+    updateCharacterCount();
+    clearErrors();
+    clearStatus();
+
+    // Replace the form with the confirmation block and move focus to it
+    form.hidden = true;
+    formSuccess.hidden = false;
+    formSuccess.focus();
 }
 
 // Character counter for message field
-const messageField = document.getElementById('message');
-const characterCount = document.getElementById('characterCount');
+function updateCharacterCount() {
+    const remaining = MAX_MESSAGE_LENGTH - messageField.value.length;
+    characterCount.textContent = `${remaining} ${remaining === 1 ? 'character' : 'characters'} remaining`;
+    characterCount.classList.toggle('is-low', remaining < 100);
+}
 
 messageField.addEventListener('input', updateCharacterCount);
 
-function updateCharacterCount() {
-    const remaining = 1000 - messageField.value.length;
-    characterCount.textContent = `${remaining} characters remaining`;
-    
-    if (remaining < 100) {
-        characterCount.style.color = '#ff6b6b';
-    } else if (remaining < 200) {
-        characterCount.style.color = '#ffd43b';
-    } else {
-        characterCount.style.color = 'rgba(255, 255, 255, 0.7)';
-    }
-}
-
-// Real-time validation for form inputs
-document.querySelectorAll('.form-input').forEach(input => {
-    input.addEventListener('blur', function() {
-        validateField(this);
+// Real-time validation: clear an error as soon as the user edits the field,
+// and check a filled-in field again when they leave it
+fields.forEach(field => {
+    field.addEventListener('input', function() {
+        if (this.classList.contains('error')) clearError(this);
     });
-    
-    input.addEventListener('input', function() {
-        // Clear error state when user starts typing
-        if (this.classList.contains('error')) {
-            this.classList.remove('error');
-            const errorElement = this.parentNode.querySelector('.error-message');
-            if (errorElement) {
-                errorElement.style.display = 'none';
-            }
-        }
-        
-        // Real-time validation for non-empty fields
-        if (this.value.trim()) {
-            validateField(this);
-        }
+
+    field.addEventListener('blur', function() {
+        if (!this.value.trim()) return;
+        const message = getFieldError(this);
+        if (message) showError(this, message);
     });
 });
 
-// Checkbox validation
-document.getElementById('certification').addEventListener('change', function() {
-    const errorElement = document.getElementById('certificationError');
-    if (this.checked) {
-        errorElement.style.display = 'none';
-    }
+// Checkbox: clear any Formspree error once it changes
+const certification = document.getElementById('certification');
+certification.addEventListener('change', function() {
+    clearError(this);
 });
 
-function validateField(field) {
-    const fieldName = field.name;
-    const value = field.value.trim();
-    
-    // Clear previous state
-    field.classList.remove('error', 'success');
-    
-    switch (fieldName) {
-        case 'fullName':
-            if (value && value.length >= 2) {
-                field.classList.add('success');
-            } else if (value) {
-                field.classList.add('error');
-            }
-            break;
-            
-        case 'email':
-            if (value && isValidEmail(value)) {
-                field.classList.add('success');
-            } else if (value) {
-                field.classList.add('error');
-            }
-            break;
-            
-        case 'organization':
-            if (value) {
-                field.classList.add('success');
-            }
-            break;
-            
-        case 'message':
-            if (value && value.length >= 10) {
-                field.classList.add('success');
-            } else if (value) {
-                field.classList.add('error');
-            }
-            break;
-    }
-}
+function showError(field, message) {
+    const errorElement = document.getElementById(field.id + 'Error');
+    if (!errorElement) return;
 
-function showError(elementId, message) {
-    const errorElement = document.getElementById(elementId);
-    const inputElement = errorElement.previousElementSibling;
-    
-    // Add error class to input field
-    if (inputElement && (inputElement.classList.contains('form-input') || inputElement.classList.contains('checkbox-input'))) {
-        inputElement.classList.add('error');
-        inputElement.classList.remove('success');
-    }
-    
-    // Show error message
+    field.classList.add('error');
+    field.setAttribute('aria-invalid', 'true');
+
     errorElement.textContent = message;
-    errorElement.style.display = 'block';
-    
-    // Add accessibility attributes
-    if (inputElement) {
-        inputElement.setAttribute('aria-invalid', 'true');
-        inputElement.setAttribute('aria-describedby', elementId);
+    errorElement.hidden = false;
+
+    const describedBy = (field.dataset.describedby || '').split(' ').filter(Boolean);
+    field.setAttribute('aria-describedby', describedBy.concat(errorElement.id).join(' '));
+}
+
+function clearError(field) {
+    const errorElement = document.getElementById(field.id + 'Error');
+    if (errorElement) {
+        errorElement.textContent = '';
+        errorElement.hidden = true;
+    }
+
+    field.classList.remove('error');
+    field.removeAttribute('aria-invalid');
+
+    if (field.dataset.describedby) {
+        field.setAttribute('aria-describedby', field.dataset.describedby);
+    } else {
+        field.removeAttribute('aria-describedby');
     }
 }
 
 function clearErrors() {
-    // Hide all error messages
-    document.querySelectorAll('.error-message').forEach(error => {
-        error.style.display = 'none';
-        error.textContent = '';
-    });
-    
-    // Remove error classes from inputs
-    document.querySelectorAll('.form-input, .checkbox-input').forEach(input => {
-        input.classList.remove('error');
-        input.removeAttribute('aria-invalid');
-        input.removeAttribute('aria-describedby');
-    });
+    fields.forEach(clearError);
+    clearError(certification);
 }
 
 function isValidEmail(email) {
@@ -268,52 +238,5 @@ function isValidEmail(email) {
     return emailRegex.test(email) && email.length <= 254;
 }
 
-function showSuccessMessage() {
-    // Create and show a success message
-    const successDiv = document.createElement('div');
-    successDiv.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #51cf66, #40c057);
-        color: white;
-        padding: 16px 24px;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(81, 207, 102, 0.3);
-        z-index: 10000;
-        font-weight: 600;
-        backdrop-filter: blur(10px);
-        animation: slideIn 0.3s ease-out;
-    `;
-    
-    // Add CSS animation if not already present
-    if (!document.getElementById('successAnimation')) {
-        const style = document.createElement('style');
-        style.id = 'successAnimation';
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    successDiv.textContent = '✓ Thank you! Your message has been sent successfully.';
-    document.body.appendChild(successDiv);
-    
-    // Remove success message after 4 seconds
-    setTimeout(() => {
-        successDiv.style.animation = 'slideIn 0.3s ease-out reverse';
-        setTimeout(() => {
-            if (successDiv.parentNode) {
-                successDiv.parentNode.removeChild(successDiv);
-            }
-        }, 300);
-    }, 4000);
-}
-
 // Initialize character count on page load
-document.addEventListener('DOMContentLoaded', function() {
-    updateCharacterCount();
-});
+updateCharacterCount();

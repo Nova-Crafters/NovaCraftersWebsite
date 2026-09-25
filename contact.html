@@ -1,155 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — NovaCrafters</title>
+  <meta name="description" content="Request a free website from NovaCrafters. Tell us about your nonprofit or small business with this form, or email service@nova-crafters.com.">
 
-    <!-- SEO Meta Tags -->
-    <meta name="keywords" content="free web design for nonprofits, free website design for non-profit organizations, nonprofit web design agency, nonprofit website design companies, nonprofit website designers, free web design services for small nonprofits, NovaCrafters, Nova Crafters">
-    <meta name="description" content="NovaCrafters offers free website design for small nonprofits and community organizations to support their missions online.">
+  <link rel="icon" type="image/png" href="roundednova.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Serif+4:wght@400;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script src="nav.js"></script>
 
-    <title>NovaCrafters</title>
-    <link rel="stylesheet" href="contact.css">
-    <link rel="icon" type="image/png" href="roundednova.png">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M2DYWWW21"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-7M2DYWWW21');
-    </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M2DYWWW21"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-7M2DYWWW21');
+  </script>
 </head>
-
 <body>
-    <header>
-        <div class="container">
-            <nav id="main-nav">
-                <div class="logo">NovaCrafters</div>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="login.html" id="login-link">Login</a></li>
-                </ul>
-                <div class="user-nav" id="user-nav" style="display:none">
-                    <span class="user-icon" id="user-icon" aria-label="User" tabindex="0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-2.21 3.58-4 8-4s8 1.79 8 4"/></svg>
-                    </span>
-                    <span class="username" id="username-display"></span>
-                </div>
-            </nav>
-        </div>
-    </header>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="main-container">
-        <div class="form-container">
-            <h1 class="form-title">Contact Us</h1>
-            <form id="contactForm" action="https://formspree.io/f/xnnvpkgg" method="POST">
-                <div class="form-group">
-                    <label class="form-label" for="fullName">
-                        Full Name<span class="required">*</span>
-                    </label>
-                    <input 
-                        type="text" 
-                        id="fullName" 
-                        name="fullName" 
-                        class="form-input" 
-                        placeholder="Type Here..."
-                        required
-                    >
-                    <div class="error-message" id="fullNameError"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="email">
-                        Email<span class="required">*</span>
-                    </label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        class="form-input" 
-                        placeholder="name@email.com"
-                        required
-                    >
-                    <div class="error-message" id="emailError"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="organization">
-                        Company / Organization<span class="required">*</span>
-                    </label>
-                    <input 
-                        type="text" 
-                        id="organization" 
-                        name="organization" 
-                        class="form-input" 
-                        placeholder="Type Here..."
-                        required
-                    >
-                    <div class="error-message" id="organizationError"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="message">
-                        Message<span class="required">*</span>
-                    </label>
-                    <textarea 
-                        id="message" 
-                        name="message" 
-                        class="form-input form-textarea" 
-                        placeholder="Provide details for your inquiry. How can we help?"
-                        maxlength="1000"
-                        required
-                    ></textarea>
-                    <div class="character-count" id="characterCount">1000 characters remaining</div>
-                    <div class="error-message" id="messageError"></div>
-                </div>
-
-                <div class="checkbox-group">
-                    <input 
-                        type="checkbox" 
-                        id="certification" 
-                        name="certification" 
-                        class="checkbox-input"
-                    >
-                    <label class="checkbox-label" for="certification">
-                        Organization is 501(c)(3) Certified (Optional)
-                    </label>
-                    <div class="error-message" id="certificationError"></div>
-                </div>
-
-                <button type="submit" class="submit-btn">Submit</button>
-
-                <div class="form-footer">
-                    Our organization accepts requests from informal/certified non-profit organizations or small businesses.
-                    If you still have questions, please <a href="mailto:help.novacrafters@gmail.com">send us an email.</a>. 
-                    <!-- (help.novacrafters@gmail.com) -->
-
-                    NovaCrafters is a nonprofit organization dedicated to empowering nonprofits with free websites.
-
-                    This is the official website of NovaCrafters. The domain nova-crafters.com is owned and operated by NovaCrafters.
-
-                    Contact: service@nova-crafters.com
-                </div>
-            </form>
-        </div>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__mark" src="roundednova.png" alt="" width="40" height="40">
+        <span>NovaCrafters</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+        <ul class="site-nav__list" id="site-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-    
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">NovaCrafters</div>
-                <p>&copy; 2025 NovaCrafters. All rights reserved. 501c3 Certified Nonprofit Organization.</p>
-            </div>
-        </div>
-    </footer>
+  </header>
 
-    <script src="contact.js"></script>
-    <script> window.chtlConfig = { chatbotId: "2616644261" } </script>
-    <script async data-id="2616644261" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+  <main id="main" tabindex="-1">
+    <section class="contact">
+      <div class="wrap grid">
+        <div class="contact__intro">
+          <h1>Request a website.</h1>
+          <p>We build free websites for nonprofits, formal or informal, and small businesses.</p>
+          <p>Use this form to tell us what your organization does and what you need. We'll reply to set up a free consultation.</p>
+          <p>We build frontend websites only: the pages people see. We don't build backend systems such as user accounts or databases.</p>
+          <p>Have a question first? Email <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a>.</p>
+        </div>
+
+        <div class="contact__panel">
+          <form id="contactForm" action="https://formspree.io/f/xnnvpkgg" method="POST">
+            <p class="form-note">All fields are required unless marked optional.</p>
+
+            <div class="field">
+              <label class="field__label label" for="fullName">Full name</label>
+              <input class="form-input" type="text" id="fullName" name="fullName" autocomplete="name" placeholder="Jane Smith" required>
+              <p class="error-message" id="fullNameError" hidden></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" name="email" autocomplete="email" placeholder="jane@foodpantry.org" required>
+              <p class="error-message" id="emailError" hidden></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label label" for="organization">Organization or business</label>
+              <input class="form-input" type="text" id="organization" name="organization" autocomplete="organization" placeholder="Eastside Food Pantry" required>
+              <p class="error-message" id="organizationError" hidden></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label label" for="message">Message</label>
+              <textarea class="form-input form-textarea" id="message" name="message" maxlength="1000" aria-describedby="characterCount" placeholder="We run a weekly food pantry and need a simple site with our hours, our address, and how people can donate." required></textarea>
+              <p class="char-count" id="characterCount">1000 characters remaining</p>
+              <p class="error-message" id="messageError" hidden></p>
+            </div>
+
+            <div class="field field--check">
+              <input class="checkbox-input" type="checkbox" id="certification" name="certification">
+              <label for="certification">Our organization is a 501(c)(3) nonprofit <span class="field__optional">(optional)</span></label>
+              <p class="error-message" id="certificationError" hidden></p>
+            </div>
+
+            <button class="button submit-btn" type="submit">Send message</button>
+            <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+          </form>
+
+          <div class="form-success" id="formSuccess" tabindex="-1" hidden>
+            <h2>Message sent.</h2>
+            <p>We reply to <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a> inquiries within <span class="todo">[ADD: typical reply time]</span>.</p>
+            <p><a href="contact.html">Send another message</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap grid">
+      <p class="site-footer__name">NovaCrafters</p>
+      <div class="site-footer__meta">
+        <ul class="site-footer__links label">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <p><a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a></p>
+        <p>&copy; <span id="year">2026</span> NovaCrafters. 501(c)(3) nonprofit organization.</p>
+        <p class="site-footer__fine">nova-crafters.com is the official website of NovaCrafters.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="contact.js"></script>
+  <script> window.chtlConfig = { chatbotId: "2616644261" } </script>
+  <script async data-id="2616644261" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 </body>
 </html>
