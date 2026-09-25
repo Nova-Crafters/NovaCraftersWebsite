@@ -383,11 +383,13 @@ main:focus {
 
 .site-nav__list {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 0.25rem;
   list-style: none;
 }
 
-.site-nav__list a {
+.site-nav__list a:not(.button) {
   display: inline-block;
   padding: 0.5rem 1rem;
   border-radius: 999px;
@@ -397,25 +399,24 @@ main:focus {
   transition: color var(--speed) ease, background-color var(--speed) ease;
 }
 
-.site-nav__list a:hover {
+.site-nav__list a:not(.button):hover {
   color: var(--text);
   background: rgba(255, 255, 255, 0.06);
 }
 
-.site-nav__list a[aria-current="page"] {
+.site-nav__list a:not(.button)[aria-current="page"] {
   color: var(--text);
   background: rgba(167, 139, 250, 0.16);
   box-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.4);
 }
 
-.site-header .header-cta {
-  display: none;
+/* "Request a website" is the last menu item, shown as a button */
+.site-nav__cta {
+  margin-left: 0.75rem;
 }
 
-@media (min-width: 900px) {
-  .site-header .header-cta {
-    display: inline-flex;
-  }
+.site-nav__cta .button[aria-current="page"] {
+  box-shadow: 0 0 0 2px var(--cyan), 0 12px 34px -12px rgba(124, 58, 237, 0.85);
 }
 
 .menu-toggle {
@@ -453,6 +454,8 @@ main:focus {
     right: 0;
     bottom: 0;
     flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
     gap: 0;
     padding: 1.5rem var(--gutter) 2rem;
     background: rgba(6, 4, 13, 0.94);
@@ -490,7 +493,7 @@ main:focus {
     transition-delay: 120ms;
   }
 
-  .js .site-nav__list a {
+  .js .site-nav__list a:not(.button) {
     display: block;
     padding: 1.25rem 0;
     border-radius: 0;
@@ -504,12 +507,24 @@ main:focus {
     color: var(--text);
   }
 
-  .js .site-nav__list a:hover {
+  .js .site-nav__list a:not(.button):hover {
     background: none;
     color: var(--cyan);
   }
 
-  .js .site-nav__list a[aria-current="page"] {
+  /* In the open menu the button spans the full width under the links */
+  .js .site-nav__list .site-nav__cta {
+    margin: 2rem 0 0;
+    border-bottom: 0;
+  }
+
+  .js .site-nav__cta .button {
+    width: 100%;
+    min-height: 3.5rem;
+    font-size: 1.05rem;
+  }
+
+  .js .site-nav__list a:not(.button)[aria-current="page"] {
     background: var(--grad-text);
     background-size: 200% auto;
     -webkit-background-clip: text;
