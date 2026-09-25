@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Serif+4:wght@400;600&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260925">
-  <script src="nav.js?v=20260925"></script>
+  <link rel="stylesheet" href="styles.css?v=20260925-2">
+  <script src="nav.js?v=20260925-2"></script>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M2DYWWW21"></script>
@@ -43,15 +43,38 @@
   </header>
 
   <main id="main" tabindex="-1">
-    <section class="contact">
+    <section class="page-hero" aria-labelledby="page-title">
       <div class="wrap grid">
-        <div class="contact__intro">
-          <h1>Request a website.</h1>
-          <p>We build free websites for nonprofits, whether registered or informal, and for small businesses.</p>
-          <p>Use this form to tell us about your organization and what you need. We'll get back to you to set up a free consultation.</p>
-          <p>We build the website itself, meaning the pages people see. We don't build behind-the-scenes systems like user accounts or databases.</p>
-          <p>Have a question first? Email us at <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a>.</p>
+        <div class="page-hero__text">
+          <h1 id="page-title">Request a website.</h1>
+          <p class="lede">Tell us about your organization and what you need. We'll get back to you to set up a free consultation.</p>
         </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Contact form">
+      <div class="wrap grid">
+        <aside class="contact__intro" aria-labelledby="facts-title">
+          <h2 class="label" id="facts-title">Good to know</h2>
+          <dl class="terms__list terms__list--compact">
+            <div class="terms__row">
+              <dt class="label">Who</dt>
+              <dd>Nonprofits, whether registered or informal, and small businesses.</dd>
+            </div>
+            <div class="terms__row">
+              <dt class="label">What</dt>
+              <dd>The website itself, meaning the pages people see. We don't build behind-the-scenes systems like user accounts or databases.</dd>
+            </div>
+            <div class="terms__row">
+              <dt class="label">Cost</dt>
+              <dd>Nothing. It's free.</dd>
+            </div>
+            <div class="terms__row">
+              <dt class="label">Questions</dt>
+              <dd>Email us at <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a>.</dd>
+            </div>
+          </dl>
+        </aside>
 
         <div class="contact__panel">
           <form id="contactForm" action="https://formspree.io/f/xnnvpkgg" method="POST">
@@ -118,7 +141,7 @@
     </div>
   </footer>
 
-  <script src="contact.js?v=20260925"></script>
+  <script src="contact.js?v=20260925-2"></script>
   <script> window.chtlConfig = { chatbotId: "2616644261" } </script>
   <script async data-id="2616644261" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 </body>
