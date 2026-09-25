@@ -114,7 +114,9 @@
     }
 
     function countUp(el) {
-        const target = parseInt(el.dataset.count, 10);
+        const target = parseFloat(el.dataset.count);
+        const decimals = parseInt(el.dataset.decimals || '0', 10);
+        const prefix = el.dataset.prefix || '';
         const suffix = el.dataset.suffix || '';
         const duration = 1400;
         const start = performance.now();
@@ -122,7 +124,7 @@
         function step(now) {
             const t = Math.min(1, (now - start) / duration);
             const eased = 1 - Math.pow(1 - t, 3);
-            el.textContent = Math.round(target * eased) + suffix;
+            el.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
             if (t < 1) requestAnimationFrame(step);
         }
 
