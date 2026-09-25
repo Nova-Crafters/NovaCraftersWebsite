@@ -1308,6 +1308,11 @@ main:focus {
   border-color: var(--violet);
 }
 
+.checkbox-input.error {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.25);
+}
+
 .checkbox-input:checked {
   border-color: var(--violet);
   background: var(--violet-deep);
@@ -1364,13 +1369,6 @@ main:focus {
 
 .form-success p + p {
   margin-top: 1.5rem;
-}
-
-.todo {
-  padding-inline: 0.3em;
-  border-radius: 4px;
-  background: rgba(103, 232, 249, 0.14);
-  color: var(--cyan);
 }
 
 /* ---------- Footer ---------- */

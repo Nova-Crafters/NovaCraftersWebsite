@@ -4,16 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | NovaCrafters</title>
-  <meta name="description" content="Ask NovaCrafters for a free website. Tell us about your certified nonprofit or small business using this form, or email service@nova-crafters.com.">
+  <meta name="description" content="Ask NovaCrafters for a free website for your certified nonprofit. Fill out this form or email service@nova-crafters.com.">
   <meta name="theme-color" content="#06040d">
 
   <link rel="icon" type="image/png" href="roundednova.png">
+  <link rel="canonical" href="https://nova-crafters.com/contact.html">
+  <link rel="apple-touch-icon" href="roundednova.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NovaCrafters">
+  <meta property="og:title" content="Contact | NovaCrafters">
+  <meta property="og:description" content="Ask NovaCrafters for a free website for your certified nonprofit. Fill out this form or email service@nova-crafters.com.">
+  <meta property="og:url" content="https://nova-crafters.com/contact.html">
+  <meta property="og:image" content="https://nova-crafters.com/roundednova.png">
+  <meta name="twitter:card" content="summary">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260925-6">
-  <script src="nav.js?v=20260925-6"></script>
-  <script src="scene.js?v=20260925-6" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20260925-7">
+  <script src="nav.js?v=20260925-7"></script>
+  <script src="scene.js?v=20260925-7" defer></script>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M2DYWWW21"></script>
@@ -63,7 +72,11 @@
           <dl class="facts">
             <div>
               <dt>Who</dt>
-              <dd>Certified nonprofits and small businesses.</dd>
+              <dd>Certified nonprofits.</dd>
+            </div>
+            <div>
+              <dt>Where</dt>
+              <dd>Anywhere. We've helped nonprofits in 4 countries.</dd>
             </div>
             <div>
               <dt>What</dt>
@@ -82,7 +95,7 @@
 
         <div class="contact__panel panel" data-reveal>
           <form id="contactForm" action="https://formspree.io/f/xnnvpkgg" method="POST">
-            <p class="form-note">Every field is required unless it says optional.</p>
+            <p class="form-note">All fields are required.</p>
 
             <div class="field">
               <label class="field__label" for="fullName">Full name</label>
@@ -97,7 +110,7 @@
             </div>
 
             <div class="field">
-              <label class="field__label" for="organization">Organization or business</label>
+              <label class="field__label" for="organization">Organization name</label>
               <input class="form-input" type="text" id="organization" name="organization" autocomplete="organization" placeholder="Eastside Food Pantry" required>
               <p class="error-message" id="organizationError" hidden></p>
             </div>
@@ -110,8 +123,8 @@
             </div>
 
             <div class="field field--check">
-              <input class="checkbox-input" type="checkbox" id="certification" name="certification">
-              <label for="certification">Our organization is a certified nonprofit <span class="field__optional">(optional)</span></label>
+              <input class="checkbox-input" type="checkbox" id="certification" name="certification" required>
+              <label for="certification">My organization is a certified nonprofit</label>
               <p class="error-message" id="certificationError" hidden></p>
             </div>
 
@@ -122,7 +135,7 @@
           <div class="form-success" id="formSuccess" tabindex="-1" hidden>
             <p class="kicker">Received</p>
             <h2><span class="grad-text">Message sent.</span></h2>
-            <p>Thanks for reaching out. We usually reply within <span class="todo">[ADD: typical reply time]</span>. If you need us sooner, email <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a>.</p>
+            <p>Thanks for reaching out. We'll reply by email as soon as we can. You can also reach us anytime at <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a>.</p>
             <p><a href="contact.html">Send another message</a></p>
           </div>
         </div>
@@ -148,7 +161,7 @@
     </div>
   </footer>
 
-  <script src="contact.js?v=20260925-6"></script>
+  <script src="contact.js?v=20260925-7"></script>
   <script> window.chtlConfig = { chatbotId: "2616644261" } </script>
   <script async data-id="2616644261" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 </body>

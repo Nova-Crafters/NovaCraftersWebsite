@@ -10,6 +10,7 @@ const formSuccess = document.getElementById('formSuccess');
 const messageField = document.getElementById('message');
 const characterCount = document.getElementById('characterCount');
 const fields = form.querySelectorAll('.form-input');
+const certification = document.getElementById('certification');
 
 // Our inline field errors replace the browser's validation pop-ups.
 // Without JavaScript the form still posts to Formspree, which validates on its side.
@@ -38,6 +39,12 @@ form.addEventListener('submit', function(e) {
         }
     });
 
+    // We only work with certified nonprofits, so this box must be checked
+    if (!certification.checked) {
+        showError(certification, 'We only build websites for certified nonprofits. Please confirm that your organization is one.');
+        firstInvalid = firstInvalid || certification;
+    }
+
     if (firstInvalid) {
         firstInvalid.focus();
         return;
@@ -62,7 +69,7 @@ function getFieldError(field) {
             break;
 
         case 'organization':
-            if (!value) return 'Please enter the name of your organization or business.';
+            if (!value) return "Please enter your organization's name.";
             break;
 
         case 'message':
@@ -190,8 +197,7 @@ fields.forEach(field => {
     });
 });
 
-// Checkbox: clear any Formspree error once it changes
-const certification = document.getElementById('certification');
+// Checkbox: clear its error once it changes
 certification.addEventListener('change', function() {
     clearError(this);
 });
