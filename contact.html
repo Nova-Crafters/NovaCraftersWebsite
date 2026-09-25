@@ -5,13 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | NovaCrafters</title>
   <meta name="description" content="Ask NovaCrafters for a free website. Tell us about your nonprofit or small business using this form, or email service@nova-crafters.com.">
+  <meta name="theme-color" content="#06040d">
 
   <link rel="icon" type="image/png" href="roundednova.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Serif+4:wght@400;600&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260925-2">
-  <script src="nav.js?v=20260925-2"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap">
+  <link rel="stylesheet" href="styles.css?v=20260925-3">
+  <script src="nav.js?v=20260925-3"></script>
+  <script src="scene.js?v=20260925-3" defer></script>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M2DYWWW21"></script>
@@ -22,7 +24,8 @@
     gtag('config', 'G-7M2DYWWW21');
   </script>
 </head>
-<body>
+<body data-scene="contact">
+  <canvas class="scene" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -39,6 +42,7 @@
           <li><a href="contact.html" aria-current="page">Contact</a></li>
         </ul>
       </nav>
+      <a class="button button--small header-cta" href="contact.html">Request a website</a>
     </div>
   </header>
 
@@ -46,60 +50,61 @@
     <section class="page-hero" aria-labelledby="page-title">
       <div class="wrap grid">
         <div class="page-hero__text">
-          <h1 id="page-title">Request a website.</h1>
-          <p class="lede">Tell us about your organization and what you need. We'll get back to you to set up a free consultation.</p>
+          <p class="chip" data-reveal>Contact</p>
+          <h1 id="page-title" data-reveal>Request a <span class="grad-text">website.</span></h1>
+          <p class="lede" data-reveal>Tell us about your organization and what you need. We'll get back to you to set up a free consultation.</p>
         </div>
       </div>
     </section>
 
     <section class="section" aria-label="Contact form">
       <div class="wrap grid">
-        <aside class="contact__intro" aria-labelledby="facts-title">
-          <h2 class="label" id="facts-title">Good to know</h2>
-          <dl class="terms__list terms__list--compact">
-            <div class="terms__row">
-              <dt class="label">Who</dt>
+        <aside class="contact__aside panel" aria-labelledby="facts-title" data-reveal>
+          <p class="kicker" id="facts-title">Good to know</p>
+          <dl class="facts">
+            <div>
+              <dt>Who</dt>
               <dd>Nonprofits, whether registered or informal, and small businesses.</dd>
             </div>
-            <div class="terms__row">
-              <dt class="label">What</dt>
+            <div>
+              <dt>What</dt>
               <dd>The website itself, meaning the pages people see. We don't build behind-the-scenes systems like user accounts or databases.</dd>
             </div>
-            <div class="terms__row">
-              <dt class="label">Cost</dt>
+            <div>
+              <dt>Cost</dt>
               <dd>Nothing. It's free.</dd>
             </div>
-            <div class="terms__row">
-              <dt class="label">Questions</dt>
+            <div>
+              <dt>Questions</dt>
               <dd>Email us at <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a>.</dd>
             </div>
           </dl>
         </aside>
 
-        <div class="contact__panel">
+        <div class="contact__panel panel" data-reveal>
           <form id="contactForm" action="https://formspree.io/f/xnnvpkgg" method="POST">
             <p class="form-note">Every field is required unless it says optional.</p>
 
             <div class="field">
-              <label class="field__label label" for="fullName">Full name</label>
+              <label class="field__label" for="fullName">Full name</label>
               <input class="form-input" type="text" id="fullName" name="fullName" autocomplete="name" placeholder="Jane Smith" required>
               <p class="error-message" id="fullNameError" hidden></p>
             </div>
 
             <div class="field">
-              <label class="field__label label" for="email">Email</label>
+              <label class="field__label" for="email">Email</label>
               <input class="form-input" type="email" id="email" name="email" autocomplete="email" placeholder="jane@foodpantry.org" required>
               <p class="error-message" id="emailError" hidden></p>
             </div>
 
             <div class="field">
-              <label class="field__label label" for="organization">Organization or business</label>
+              <label class="field__label" for="organization">Organization or business</label>
               <input class="form-input" type="text" id="organization" name="organization" autocomplete="organization" placeholder="Eastside Food Pantry" required>
               <p class="error-message" id="organizationError" hidden></p>
             </div>
 
             <div class="field">
-              <label class="field__label label" for="message">Message</label>
+              <label class="field__label" for="message">Message</label>
               <textarea class="form-input form-textarea" id="message" name="message" maxlength="1000" aria-describedby="characterCount" placeholder="We run a weekly food pantry and need a simple site with our hours, our address, and how people can donate." required></textarea>
               <p class="char-count" id="characterCount">1000 characters remaining</p>
               <p class="error-message" id="messageError" hidden></p>
@@ -116,7 +121,8 @@
           </form>
 
           <div class="form-success" id="formSuccess" tabindex="-1" hidden>
-            <h2>Message sent.</h2>
+            <p class="kicker">Received</p>
+            <h2><span class="grad-text">Message sent.</span></h2>
             <p>Thanks for reaching out. We usually reply within <span class="todo">[ADD: typical reply time]</span>. If you need us sooner, email <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a>.</p>
             <p><a href="contact.html">Send another message</a></p>
           </div>
@@ -126,22 +132,24 @@
   </main>
 
   <footer class="site-footer">
-    <div class="wrap grid">
-      <p class="site-footer__name">NovaCrafters</p>
-      <div class="site-footer__meta">
-        <ul class="site-footer__links label">
+    <div class="wrap">
+      <div class="site-footer__top">
+        <p class="site-footer__name">NovaCrafters</p>
+        <ul class="site-footer__links">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
+      </div>
+      <div class="site-footer__bottom">
         <p><a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a></p>
         <p>&copy; <span id="year">2026</span> NovaCrafters. 501(c)(3) nonprofit organization.</p>
-        <p class="site-footer__fine">nova-crafters.com is the official website of NovaCrafters.</p>
+        <p>nova-crafters.com is the official website of NovaCrafters.</p>
       </div>
     </div>
   </footer>
 
-  <script src="contact.js?v=20260925-2"></script>
+  <script src="contact.js?v=20260925-3"></script>
   <script> window.chtlConfig = { chatbotId: "2616644261" } </script>
   <script async data-id="2616644261" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 </body>

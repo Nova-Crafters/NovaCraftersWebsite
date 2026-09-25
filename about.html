@@ -5,13 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About | NovaCrafters</title>
   <meta name="description" content="NovaCrafters is a 501(c)(3) nonprofit started by high school friends. We build free websites for nonprofits and small businesses. Here's who we are and why we do it.">
+  <meta name="theme-color" content="#06040d">
 
   <link rel="icon" type="image/png" href="roundednova.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Serif+4:wght@400;600&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260925-2">
-  <script src="nav.js?v=20260925-2"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap">
+  <link rel="stylesheet" href="styles.css?v=20260925-3">
+  <script src="nav.js?v=20260925-3"></script>
+  <script src="scene.js?v=20260925-3" defer></script>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M2DYWWW21"></script>
@@ -22,7 +24,8 @@
     gtag('config', 'G-7M2DYWWW21');
   </script>
 </head>
-<body>
+<body data-scene="about">
+  <canvas class="scene" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -39,6 +42,7 @@
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
+      <a class="button button--small header-cta" href="contact.html">Request a website</a>
     </div>
   </header>
 
@@ -46,80 +50,112 @@
     <section class="page-hero" aria-labelledby="page-title">
       <div class="wrap grid">
         <div class="page-hero__text">
-          <h1 id="page-title">We want you to be seen.</h1>
-          <p class="lede">NovaCrafters is a 501(c)(3) nonprofit. We design, build, and update websites for nonprofits and small businesses, and we don't charge for it.</p>
+          <p class="chip" data-reveal>About us</p>
+          <h1 id="page-title" data-reveal>We want you to be <span class="grad-text">seen.</span></h1>
+          <p class="lede" data-reveal>NovaCrafters is a 501(c)(3) nonprofit. We design, build, and update websites for nonprofits and small businesses, and we don't charge for it.</p>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-label="Our story">
-      <div class="wrap grid">
-        <div class="about__body">
-          <h2>Who we are</h2>
-          <p>We're a group of friends who started NovaCrafters in high school. We love design and web development, and we wanted to use those skills to help our community.</p>
-
-          <h2>Why we don't charge</h2>
-          <p>A good website helps a nonprofit or small business reach more people. We don't want cost to be the thing that keeps a small organization from having one.</p>
-
-          <h2>How we work</h2>
-          <p>We start with a free consultation to learn what you need. Then we design and build your site, take your feedback along the way, put it online, and show you how to update it yourself.</p>
+    <section class="section" aria-labelledby="story-title">
+      <div class="wrap">
+        <div class="section__head" data-reveal>
+          <p class="kicker">01 / Our story</p>
+          <h2 id="story-title">Who we are</h2>
         </div>
-
-        <figure class="about__poster">
-          <img src="novaposter1.webp" width="563" height="845" loading="lazy" alt="NovaCrafters poster on a purple background. It shows the NovaCrafters logo, the line “Creating websites for businesses &amp; nonprofits,” an illustration of a website on a desktop monitor and a phone, a button reading “Visit nova-crafters.com,” a QR code labeled “Scan to visit our website,” and “YouTube: Novacrafters.”">
-          <figcaption class="label">The NovaCrafters poster</figcaption>
-        </figure>
+        <div class="grid">
+          <div class="story">
+            <article class="card" data-tilt data-reveal>
+              <p class="card__index">The team</p>
+              <h3>High school friends</h3>
+              <p>We're a group of friends who started NovaCrafters in high school. We love design and web development, and we wanted to use those skills to help our community.</p>
+            </article>
+            <article class="card" data-tilt data-reveal>
+              <p class="card__index">Why it's free</p>
+              <h3>Cost shouldn't be the barrier</h3>
+              <p>A good website helps a nonprofit or small business reach more people. We don't want cost to be the thing that keeps a small organization from having one.</p>
+            </article>
+            <article class="card" data-tilt data-reveal>
+              <p class="card__index">How we work</p>
+              <h3>With you, start to finish</h3>
+              <p>We start with a free consultation to learn what you need. Then we design and build your site, take your feedback along the way, put it online, and show you how to update it yourself.</p>
+            </article>
+          </div>
+          <figure class="poster-frame" data-tilt data-reveal>
+            <img src="novaposter1.webp" width="563" height="845" loading="lazy" alt="NovaCrafters poster on a purple background. It shows the NovaCrafters logo, the line “Creating websites for businesses &amp; nonprofits,” an illustration of a website on a desktop monitor and a phone, a button reading “Visit nova-crafters.com,” a QR code labeled “Scan to visit our website,” and “YouTube: Novacrafters.”">
+            <figcaption>The NovaCrafters poster</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
-    <section class="terms" aria-labelledby="terms-title">
-      <div class="wrap grid">
-        <h2 class="terms__title" id="terms-title">The details</h2>
-        <dl class="terms__list">
-          <div class="terms__row">
-            <dt class="label">Who</dt>
-            <dd>Nonprofits, whether you're officially registered or just getting started, and small businesses, especially new ones or ones working with a tight budget. You don't need to be a registered 501(c)(3) to reach out.</dd>
-          </div>
-          <div class="terms__row">
-            <dt class="label">What</dt>
-            <dd>The website itself: the pages people see and read. We design it, build it, put it online, and show you how to update it.</dd>
-          </div>
-          <div class="terms__row">
-            <dt class="label">Not included</dt>
-            <dd>Behind-the-scenes systems like user accounts or databases.</dd>
-          </div>
-          <div class="terms__row">
-            <dt class="label">After launch</dt>
-            <dd>We're around to help with problems and updates.</dd>
-          </div>
-        </dl>
+    <section class="section" aria-labelledby="details-title">
+      <div class="wrap">
+        <div class="section__head" data-reveal>
+          <p class="kicker">02 / The details</p>
+          <h2 id="details-title">What to <span class="grad-text">expect.</span></h2>
+        </div>
+        <div class="cards">
+          <article class="card" data-tilt data-reveal>
+            <p class="card__index">Who</p>
+            <h3>Nonprofits and small businesses</h3>
+            <p>Nonprofits, whether you're officially registered or just getting started, plus small businesses, especially new ones or ones working with a tight budget. You don't need to be a registered 501(c)(3) to reach out.</p>
+          </article>
+          <article class="card" data-tilt data-reveal>
+            <p class="card__index">What</p>
+            <h3>The website itself</h3>
+            <p>The pages people see and read. We design it, build it, put it online, and show you how to update it.</p>
+          </article>
+          <article class="card" data-tilt data-reveal>
+            <p class="card__index">Not included</p>
+            <h3>Behind-the-scenes systems</h3>
+            <p>Things like user accounts or databases.</p>
+          </article>
+          <article class="card" data-tilt data-reveal>
+            <p class="card__index">After launch</p>
+            <h3>Still here for you</h3>
+            <p>We're around to help with problems and updates.</p>
+          </article>
+        </div>
       </div>
     </section>
 
     <section class="cta" aria-labelledby="cta-title">
-      <div class="wrap grid">
-        <h2 class="cta__title" id="cta-title">Want a website for your organization?</h2>
-        <div class="cta__body">
-          <p>Tell us a bit about your organization and what you need, and we'll get back to you to set up a free consultation.</p>
-          <a class="button" href="contact.html">Request a website</a>
-          <p class="small">Or email us at <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a></p>
+      <div class="wrap">
+        <div class="cta-panel" data-reveal>
+          <div class="cta-panel__text">
+            <p class="kicker">Get started</p>
+            <h2 id="cta-title">Want a website for your organization?</h2>
+            <p>Tell us a bit about your organization and what you need, and we'll get back to you to set up a free consultation.</p>
+            <div class="actions">
+              <a class="button" href="contact.html">Request a website</a>
+              <p class="small">Or email us at <a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a></p>
+            </div>
+          </div>
+          <div class="cta-panel__art" data-tilt>
+            <div class="logo-card">
+              <img src="NovaCraftersLogo.webp" alt="NovaCrafters logo" width="493" height="394" loading="lazy">
+            </div>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="wrap grid">
-      <p class="site-footer__name">NovaCrafters</p>
-      <div class="site-footer__meta">
-        <ul class="site-footer__links label">
+    <div class="wrap">
+      <div class="site-footer__top">
+        <p class="site-footer__name">NovaCrafters</p>
+        <ul class="site-footer__links">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
+      </div>
+      <div class="site-footer__bottom">
         <p><a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a></p>
         <p>&copy; <span id="year">2026</span> NovaCrafters. 501(c)(3) nonprofit organization.</p>
-        <p class="site-footer__fine">nova-crafters.com is the official website of NovaCrafters.</p>
+        <p>nova-crafters.com is the official website of NovaCrafters.</p>
       </div>
     </div>
   </footer>
