@@ -1,5 +1,5 @@
 // Shared on every page: mobile menu, header state, scroll reveals,
-// 3D card tilt, timeline progress, and the footer year.
+// stat count-up, 3D card tilt, timeline progress, and the footer year.
 // Loaded in <head> so the "js" and "fx" classes are set before the page paints;
 // without JavaScript the nav links stay visible and nothing is hidden.
 (function () {
@@ -16,6 +16,7 @@
         initMenu();
         initHeader();
         initReveal();
+        initCount();
         initTilt();
         initTimeline();
     });
@@ -92,6 +93,40 @@
         }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
 
         items.forEach(el => observer.observe(el));
+    }
+
+    // Stat numbers (data-count) count up from zero the first time they come into view.
+    // The real value stays in the HTML, so without motion it simply shows as is.
+    function initCount() {
+        if (!root.classList.contains('fx')) return;
+        const items = document.querySelectorAll('[data-count]');
+        if (!items.length) return;
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                observer.unobserve(entry.target);
+                countUp(entry.target);
+            });
+        }, { threshold: 0.6 });
+
+        items.forEach(el => observer.observe(el));
+    }
+
+    function countUp(el) {
+        const target = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = 1400;
+        const start = performance.now();
+
+        function step(now) {
+            const t = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = Math.round(target * eased) + suffix;
+            if (t < 1) requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
     }
 
     // Cards marked data-tilt lean toward the pointer (mouse and trackpad only).
