@@ -52,22 +52,22 @@ function getFieldError(field) {
 
     switch (field.name) {
         case 'fullName':
-            if (!value) return 'Full name is required';
-            if (value.length < 2) return 'Please enter a valid full name';
+            if (!value) return 'Please enter your name.';
+            if (value.length < 2) return 'Your name needs at least 2 characters.';
             break;
 
         case 'email':
-            if (!value) return 'Email is required';
-            if (!isValidEmail(value)) return 'Please enter a valid email address';
+            if (!value) return 'Please enter your email address.';
+            if (!isValidEmail(value)) return "That email address doesn't look right. Please check it.";
             break;
 
         case 'organization':
-            if (!value) return 'Organization is required';
+            if (!value) return 'Please enter the name of your organization or business.';
             break;
 
         case 'message':
-            if (!value) return 'Message is required';
-            if (value.length < 10) return 'Please provide a more detailed message (minimum 10 characters)';
+            if (!value) return 'Please write a message.';
+            if (value.length < 10) return 'Please write a little more (at least 10 characters).';
             break;
     }
 
@@ -101,16 +101,16 @@ async function submitToFormspree(formData) {
             const errors = Array.isArray(data.errors) ? data.errors : [];
 
             if (handleFormspreeErrors(errors)) {
-                showErrorMessage('Your message was not sent: our form service rejected some of the fields. Fix the fields marked above and try again.');
+                showErrorMessage("Your message wasn't sent. Please fix the fields marked above and try again.");
             } else if (errors.length) {
                 const details = errors.map(error => error.message).filter(Boolean).join(' ');
-                showErrorMessage(`Your message was not sent: our form service rejected it (${details || 'status ' + response.status}). Try again in a few minutes.`);
+                showErrorMessage(`Your message wasn't sent because our form service turned it down (${details || 'error ' + response.status}). Please try again in a few minutes.`);
             } else {
-                showErrorMessage(`Your message was not sent: our form service returned an error (status ${response.status}). Try again in a few minutes.`);
+                showErrorMessage(`Something went wrong with our form service (error ${response.status}), so your message wasn't sent. Please try again in a few minutes.`);
             }
         }
     } catch (error) {
-        showErrorMessage('Your message was not sent: we could not reach our form service. Check your internet connection and try again.');
+        showErrorMessage("We couldn't reach our form service, so your message wasn't sent. Check your internet connection and try again.");
     } finally {
         // Reset button state
         submitBtn.textContent = originalText;
