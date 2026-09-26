@@ -1,7 +1,8 @@
-// Shared 3D background: a cluster of glowing, merging spheres (after the
-// NovaCrafters logo) floating in a starfield. It follows the pointer, and drifts
-// aside and dims as you scroll into the content. Plain WebGL, no libraries.
-// If WebGL is unavailable the canvas stays hidden and the CSS background shows.
+// Shared 3D background: a fly-through. Scrolling moves the camera forward
+// through a field of stars (which streak when you scroll fast) past a series
+// of glowing sphere clusters shaped like the NovaCrafters logo.
+// Plain WebGL, no libraries. If WebGL is unavailable the canvas stays hidden
+// and the CSS background shows instead.
 (function () {
     const canvas = document.querySelector('.scene');
     if (!canvas) return;
@@ -29,9 +30,12 @@
         uniform vec2 uRes;
         uniform float uTime;
         uniform vec2 uMouse;
-        uniform float uScroll;
-        uniform vec3 uLayout;   // cluster centre (x, y) in screen units, and size
-        uniform float uDim;     // 1 in the intro, lower once content is on screen
+        uniform float uCam;      // distance travelled forward by scrolling
+        uniform float uVel;      // scroll speed; stretches stars into streaks
+        uniform vec3 uCluster;   // cluster centre relative to the camera
+        uniform float uGlow;     // cluster strength: fades in far away, out as it passes
+        uniform vec3 uTintA;     // cluster colours
+        uniform vec3 uTintB;
 
         mat2 rot(float a) { float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
 
@@ -46,19 +50,18 @@
             return fract(p.x * p.y);
         }
 
-        // Distance to the blob cluster
+        // Distance to the cluster: a core sphere with five satellites, like the logo
         float map(vec3 p) {
+            p -= uCluster;
             p.xz *= rot(uTime * 0.12 + uMouse.x * 0.5);
-            p.yz *= rot(uMouse.y * 0.35 + uScroll * 0.9);
+            p.yz *= rot(uMouse.y * 0.35 + uCam * 0.04);
             float t = uTime * 0.45;
-            float s = 1.0 + clamp(uScroll, 0.0, 1.0) * 0.35;
-            // A core sphere with five satellites joined by soft necks, like the logo
             float d = length(p - vec3(0.1 * sin(t), 0.08 * cos(t * 0.8), 0.0)) - 0.58;
-            d = smin(d, length(p - s * vec3(1.05 * cos(t * 0.7), 0.7 * sin(t * 0.9), 0.4 * sin(t * 0.6))) - 0.42, 0.3);
-            d = smin(d, length(p - s * vec3(-1.0 * sin(t * 0.6 + 1.0), -0.8 * cos(t * 0.7), 0.45 * cos(t * 0.5))) - 0.46, 0.3);
-            d = smin(d, length(p - s * vec3(0.6 * sin(t * 1.1 + 2.0), -1.15 * sin(t * 0.5 + 1.0), -0.5 * cos(t * 0.8))) - 0.34, 0.26);
-            d = smin(d, length(p - s * vec3(-1.2 * cos(t * 0.9 + 3.0), 1.0 * sin(t * 0.65 + 2.0), 0.3)) - 0.3, 0.24);
-            d = smin(d, length(p - s * vec3(1.35 * sin(t * 0.55 + 4.0), 1.1 * cos(t * 0.75 + 1.5), -0.35)) - 0.24, 0.22);
+            d = smin(d, length(p - vec3(1.05 * cos(t * 0.7), 0.7 * sin(t * 0.9), 0.4 * sin(t * 0.6))) - 0.42, 0.3);
+            d = smin(d, length(p - vec3(-1.0 * sin(t * 0.6 + 1.0), -0.8 * cos(t * 0.7), 0.45 * cos(t * 0.5))) - 0.46, 0.3);
+            d = smin(d, length(p - vec3(0.6 * sin(t * 1.1 + 2.0), -1.15 * sin(t * 0.5 + 1.0), -0.5 * cos(t * 0.8))) - 0.34, 0.26);
+            d = smin(d, length(p - vec3(-1.2 * cos(t * 0.9 + 3.0), 1.0 * sin(t * 0.65 + 2.0), 0.3)) - 0.3, 0.24);
+            d = smin(d, length(p - vec3(1.35 * sin(t * 0.55 + 4.0), 1.1 * cos(t * 0.75 + 1.5), -0.35)) - 0.24, 0.22);
             return d;
         }
 
@@ -69,79 +72,98 @@
                 e.yxy * map(p + e.yxy) + e.xxx * map(p + e.xxx));
         }
 
-        void main() {
-            vec2 uv0 = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+        // One layer of the star tunnel. depth runs 0 (far) to 1 (passing the camera);
+        // as it grows the layer zooms, so its stars fly outward past the viewer.
+        vec3 starLayer(vec2 uv, float depth, float seed) {
+            float scale = mix(26.0, 1.4, depth);
+            vec2 p = uv * scale + seed * 13.1;
+            vec2 id = floor(p);
+            float h = hash(id + seed * 7.0);
+            if (h < 0.9) return vec3(0.0);
+            vec2 off = (vec2(hash(id + 3.1), hash(id + 7.7)) - 0.5) * 0.6;
+            vec2 d = fract(p) - 0.5 - off;
+            // Stretch along the direction away from the centre when moving fast
+            vec2 n = normalize(uv + 0.0001);
+            float stretch = 1.0 + uVel * 7.0 * depth;
+            float r = length(vec2(dot(d, n) / stretch, dot(d, vec2(-n.y, n.x))));
+            float pixel = scale / uRes.y;
+            float size = max(mix(0.035, 0.06, depth), 1.3 * pixel);
+            float star = smoothstep(size, 0.0, r);
+            float fade = smoothstep(0.0, 0.3, depth) * smoothstep(0.95, 0.7, depth);
+            float twinkle = 0.65 + 0.35 * sin(uTime * (1.0 + h * 3.0) + h * 60.0);
+            vec3 tint = mix(vec3(0.85, 0.82, 1.0), vec3(0.62, 0.95, 1.0), hash(id + 9.0));
+            return tint * star * fade * twinkle;
+        }
 
-            // Deep space background with a slow nebula haze
-            vec3 col = mix(vec3(0.016, 0.010, 0.040), vec3(0.050, 0.024, 0.100), smoothstep(-0.7, 0.8, uv0.y));
-            float neb = sin(uv0.x * 2.6 + uTime * 0.05) * sin(uv0.y * 3.1 - uTime * 0.04 + uv0.x);
+        void main() {
+            vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+
+            // Deep space with a slow nebula haze that drifts as you travel
+            vec3 col = mix(vec3(0.016, 0.010, 0.040), vec3(0.050, 0.024, 0.100), smoothstep(-0.7, 0.8, uv.y));
+            float neb = sin(uv.x * 2.6 + uTime * 0.05 + uCam * 0.02) * sin(uv.y * 3.1 - uTime * 0.04 + uv.x - uCam * 0.015);
             col += vec3(0.10, 0.03, 0.16) * smoothstep(0.2, 1.0, neb) * 0.35;
             col += vec3(0.02, 0.07, 0.10) * smoothstep(0.4, 1.0, -neb) * 0.25;
 
-            // Two layers of twinkling stars, with parallax on pointer and scroll
-            for (int i = 0; i < 2; i++) {
+            // Star tunnel: four layers at staggered depths
+            for (int i = 0; i < 4; i++) {
                 float fi = float(i);
-                vec2 sp = uv0 * (70.0 + fi * 55.0) + uMouse * (2.0 + fi * 3.0) + vec2(0.0, uScroll * (5.0 + fi * 9.0));
-                vec2 id = floor(sp);
-                float h = hash(id + fi * 17.0);
-                if (h > 0.965) {
-                    vec2 off = vec2(hash(id + 3.1), hash(id + 7.7)) - 0.5;
-                    float r = length(fract(sp) - 0.5 - off * 0.5);
-                    float tw = 0.55 + 0.45 * sin(uTime * (1.0 + h * 3.0) + h * 60.0);
-                    col += vec3(0.85, 0.82, 1.0) * smoothstep(0.2, 0.0, r) * tw * (0.55 + fi * 0.3);
-                }
+                float depth = fract(fi * 0.25 + uCam * 0.035 + uTime * 0.004);
+                col += starLayer(uv, depth, fi);
             }
 
-            // Blob cluster, raymarched only inside its bounding sphere
-            vec2 uv = (uv0 - uLayout.xy) / uLayout.z;
-            vec3 violet = vec3(0.49, 0.23, 0.93);
-            vec3 magenta = vec3(0.86, 0.28, 0.94);
             vec3 cyan = vec3(0.40, 0.91, 0.98);
-            col += violet * 0.16 * uDim * exp(-length(uv) * 1.6);
-
-            vec3 ro = vec3(0.0, 0.0, 5.2);
+            vec3 ro = vec3(uMouse.x * 0.3, uMouse.y * 0.2, 0.0);
             vec3 rd = normalize(vec3(uv, -1.7));
+
+            // Soft halo around the cluster
+            vec3 toC = uCluster - ro;
+            float along = max(dot(toC, rd), 0.0);
+            col += uTintA * 0.14 * uGlow * exp(-length(toC - rd * along) * 0.8);
+
+            // Raymarch the cluster only inside its bounding sphere
             float R = 2.9;
-            float b = dot(ro, rd);
-            float disc = b * b - (dot(ro, ro) - R * R);
-            if (disc > 0.0) {
-                float t = max(-b - sqrt(disc), 0.0);
+            vec3 oc = ro - uCluster;
+            float b = dot(oc, rd);
+            float disc = b * b - (dot(oc, oc) - R * R);
+            if (uGlow > 0.001 && disc > 0.0) {
                 float tEnd = -b + sqrt(disc);
-                float minD = 10.0;
-                float tMin = t;
-                bool hit = false;
-                for (int i = 0; i < 72; i++) {
-                    float d = map(ro + rd * t);
-                    if (d < minD) { minD = d; tMin = t; }
-                    if (d < 0.0015) { hit = true; break; }
-                    t += d * 0.9;
-                    if (t > tEnd) break;
-                }
+                if (tEnd > 0.0) {
+                    float t = max(-b - sqrt(disc), 0.0);
+                    float minD = 10.0;
+                    float tMin = t;
+                    bool hit = false;
+                    for (int i = 0; i < 72; i++) {
+                        float d = map(ro + rd * t);
+                        if (d < minD) { minD = d; tMin = t; }
+                        if (d < 0.0015) { hit = true; break; }
+                        t += d * 0.9;
+                        if (t > tEnd) break;
+                    }
 
-                // Smooth the silhouette: rays that pass within about a pixel of
-                // the surface get partial coverage instead of a hard edge
-                float pixel = 2.0 * tMin / (uRes.y * 1.7 * uLayout.z);
-                float cover = hit ? 1.0 : 1.0 - smoothstep(0.0, pixel, minD);
+                    // Smooth the silhouette: near misses get partial coverage
+                    float pixel = 2.0 * tMin / (uRes.y * 1.7);
+                    float cover = hit ? 1.0 : 1.0 - smoothstep(0.0, pixel, minD);
 
-                if (cover > 0.0) {
-                    vec3 p = ro + rd * (hit ? t : tMin);
-                    vec3 n = normalAt(p);
-                    vec3 l = normalize(vec3(0.6, 0.8, 0.6));
-                    float diff = max(dot(n, l), 0.0);
-                    float fres = pow(1.0 - max(dot(n, -rd), 0.0), 3.0);
-                    float spec = pow(max(dot(reflect(rd, n), l), 0.0), 48.0);
-                    vec3 base = mix(violet, magenta, 0.5 + 0.5 * n.y);
-                    base = mix(base, vec3(0.20, 0.08, 0.45), 0.5 - 0.5 * n.x);
-                    vec3 surf = base * (0.18 + 0.82 * diff) + cyan * fres * 0.85 + vec3(spec * 0.7);
-                    surf += 0.18 * fres * vec3(0.5 + 0.5 * sin(6.0 * n.y + uTime), 0.5 + 0.5 * sin(6.0 * n.x + 2.0), 1.0);
-                    col = mix(col, surf, cover * (0.35 + 0.65 * uDim));
-                }
-                if (!hit) {
-                    col += vec3(0.45, 0.20, 0.85) * exp(-minD * 4.0) * 0.35 * uDim;
+                    if (cover > 0.0) {
+                        vec3 p = ro + rd * (hit ? t : tMin);
+                        vec3 n = normalAt(p);
+                        vec3 l = normalize(vec3(0.6, 0.8, 0.6));
+                        float diff = max(dot(n, l), 0.0);
+                        float fres = pow(1.0 - max(dot(n, -rd), 0.0), 3.0);
+                        float spec = pow(max(dot(reflect(rd, n), l), 0.0), 48.0);
+                        vec3 base = mix(uTintA, uTintB, 0.5 + 0.5 * n.y);
+                        base = mix(base, vec3(0.20, 0.08, 0.45), 0.5 - 0.5 * n.x);
+                        vec3 surf = base * (0.18 + 0.82 * diff) + cyan * fres * 0.85 + vec3(spec * 0.7);
+                        surf += 0.18 * fres * vec3(0.5 + 0.5 * sin(6.0 * n.y + uTime), 0.5 + 0.5 * sin(6.0 * n.x + 2.0), 1.0);
+                        col = mix(col, surf, cover * uGlow);
+                    }
+                    if (!hit) {
+                        col += uTintA * exp(-minD * 4.0) * 0.45 * uGlow;
+                    }
                 }
             }
 
-            col *= 1.0 - 0.35 * dot(uv0 * 0.9, uv0 * 0.9);
+            col *= 1.0 - 0.35 * dot(uv * 0.9, uv * 0.9);
             gl_FragColor = vec4(col, 1.0);
         }
     `;
@@ -178,30 +200,45 @@
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
 
     const uniforms = {};
-    ['uRes', 'uTime', 'uMouse', 'uScroll', 'uLayout', 'uDim'].forEach(function (name) {
+    ['uRes', 'uTime', 'uMouse', 'uCam', 'uVel', 'uCluster', 'uGlow', 'uTintA', 'uTintB'].forEach(function (name) {
         uniforms[name] = gl.getUniformLocation(program, name);
     });
 
-    // Where the cluster sits in the intro of each page: [x, y, size]
-    const PRESETS = {
-        home: { desktop: [0.5, 0.03, 0.62], mobile: [0.02, 0.29, 0.4] },
-        about: { desktop: [0.56, 0.04, 0.5], mobile: [0.08, 0.31, 0.34] },
-        contact: { desktop: [0.58, 0.06, 0.46], mobile: [0.1, 0.32, 0.3] }
+    // ---- The flight path ----
+    // World units travelled per screen-height of scrolling
+    const SPEED = 10;
+    // Distance between clusters along the path
+    const SPACING = 24;
+
+    // Where the first cluster sits on each page, as [x, y, z] (z is ahead of the camera)
+    const FIRST = {
+        home: { desktop: [2.6, 0.1, -9], mobile: [0.55, 1.2, -10] },
+        about: { desktop: [2.9, 0.2, -11], mobile: [0.6, 1.3, -12] },
+        contact: { desktop: [3.0, 0.3, -12], mobile: [0.65, 1.35, -13] }
     };
-    const preset = PRESETS[document.body.dataset.scene] || PRESETS.home;
+    const first = FIRST[document.body.dataset.scene] || FIRST.home;
 
-    const lerp = (a, b, t) => a + (b - a) * t;
+    const VIOLET = [0.49, 0.23, 0.93];
+    const MAGENTA = [0.86, 0.28, 0.94];
+    const CYAN = [0.40, 0.91, 0.98];
+    const TINTS = [[VIOLET, MAGENTA], [VIOLET, CYAN], [MAGENTA, VIOLET]];
 
-    // Blend from the intro position to a smaller, dimmer spot at the side
-    function layoutAt(progress) {
-        const w = canvas.clientWidth, h = canvas.clientHeight;
-        const mobile = w < 768;
-        const half = (w / h) / 2;
-        const intro = mobile ? preset.mobile : preset.desktop;
-        const aside = mobile ? [half * 0.75, 0.36, 0.22] : [half * 0.88, -0.1, 0.34];
-        const e = progress * progress * (3 - 2 * progress);
-        return [lerp(intro[0], aside[0], e), lerp(intro[1], aside[1], e), lerp(intro[2], aside[2], e), lerp(1, 0.5, e)];
+    function isMobile() {
+        return canvas.clientWidth < 768;
     }
+
+    // Cluster i on the path: the first is page-specific, the rest alternate sides
+    function clusterAt(i) {
+        const start = isMobile() ? first.mobile : first.desktop;
+        if (i === 0) return start;
+        // Later clusters fly past near the screen edges, clear of the text
+        const side = i % 2 ? -1 : 1;
+        const x = side * (isMobile() ? 0.8 : 3.3 + 0.3 * Math.sin(i * 1.7));
+        const y = (isMobile() ? 1.3 : 0.6) * Math.sin(i * 2.3);
+        return [x, y, start[2] - i * SPACING];
+    }
+
+    const smoothstep = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 
     let quality = 1;
 
@@ -217,16 +254,32 @@
     }
 
     const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-    let scroll = 0;
+    let travel = 0;     // smoothed scroll position, in screen heights
+    let speed = 0;      // smoothed scroll speed, in screen heights per second
 
     function draw(time) {
-        const layout = layoutAt(Math.min(1, Math.max(0, scroll / 0.85)));
+        const cam = travel * SPEED;
+
+        // Nearest cluster that the camera hasn't flown past yet
+        let i = 0, c = clusterAt(0);
+        while (c[2] + cam > -0.8 && i < 1000) c = clusterAt(++i);
+        const rel = [c[0], c[1], c[2] + cam];
+        const dist = -rel[2];
+        // Fade in from far away; the intro cluster fades as it flies past, later
+        // ones fade earlier and stay dimmer so they never loom behind text
+        const near = i === 0 ? smoothstep(0.8, 4.5, dist) : smoothstep(2.5, 8, dist);
+        const glow = (1 - smoothstep(18, 30, dist)) * near * (i === 0 ? 1 : 0.65);
+        const tint = TINTS[i % TINTS.length];
+
         gl.uniform2f(uniforms.uRes, canvas.width, canvas.height);
         gl.uniform1f(uniforms.uTime, time);
         gl.uniform2f(uniforms.uMouse, mouse.x, mouse.y);
-        gl.uniform1f(uniforms.uScroll, scroll);
-        gl.uniform3f(uniforms.uLayout, layout[0], layout[1], layout[2]);
-        gl.uniform1f(uniforms.uDim, layout[3]);
+        gl.uniform1f(uniforms.uCam, cam);
+        gl.uniform1f(uniforms.uVel, Math.min(speed, 2.5));
+        gl.uniform3f(uniforms.uCluster, rel[0], rel[1], rel[2]);
+        gl.uniform1f(uniforms.uGlow, glow);
+        gl.uniform3f(uniforms.uTintA, tint[0][0], tint[0][1], tint[0][2]);
+        gl.uniform3f(uniforms.uTintB, tint[1][0], tint[1][1], tint[1][2]);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
     }
 
@@ -236,7 +289,7 @@
 
     resize();
 
-    // Reduced motion: one still frame, redrawn only when the window size changes
+    // Reduced motion: one still frame at the start of the path
     if (reduceMotion) {
         draw(20);
         reveal();
@@ -252,12 +305,14 @@
 
     const start = performance.now();
     let last = start, frames = 0, elapsed = 0, skip = false, raf = 0;
+    travel = window.scrollY / window.innerHeight;
 
     function frame(now) {
         raf = requestAnimationFrame(frame);
+        const dt = Math.max(1, now - last);
 
         // Lower the resolution if frames are consistently slow
-        elapsed += now - last;
+        elapsed += dt;
         last = now;
         if (++frames === 45) {
             if (elapsed / frames > 24 && quality > 0.45) {
@@ -268,12 +323,17 @@
             elapsed = 0;
         }
 
-        scroll += (window.scrollY / window.innerHeight - scroll) * 0.08;
+        // Glide toward the scroll position, so the flight keeps a little momentum
+        const before = travel;
+        travel += (window.scrollY / window.innerHeight - travel) * 0.08;
+        const instant = Math.abs(travel - before) / (dt / 1000);
+        speed += (instant - speed) * 0.12;
+
         mouse.x += (mouse.tx - mouse.x) * 0.05;
         mouse.y += (mouse.ty - mouse.y) * 0.05;
 
-        // Half frame rate once the intro has scrolled away, to save power
-        if (scroll > 1.2) {
+        // Half frame rate while idle below the intro, to save power
+        if (speed < 0.02 && travel > 1.2) {
             skip = !skip;
             if (skip) return;
         }

@@ -1,4 +1,4 @@
-// Shared on every page: mobile menu, header state, scroll reveals,
+// Shared on every page: mobile menu, header state, fly-through scroll depth,
 // stat count-up, 3D card tilt, timeline progress, and the footer year.
 // Loaded in <head> so the "js" and "fx" classes are set before the page paints;
 // without JavaScript the nav links stay visible and nothing is hidden.
@@ -15,7 +15,7 @@
 
         initMenu();
         initHeader();
-        initReveal();
+        initDepth();
         initCount();
         initTilt();
         initTimeline();
@@ -71,28 +71,91 @@
         update();
     }
 
-    // Elements marked data-reveal fade and rise into place as they enter the view.
-    function initReveal() {
+    // Fly-through depth for elements marked data-reveal: they approach from the
+    // distance near the bottom of the screen, settle in the middle, and pass by
+    // as they leave the top. Positions are measured once (and again whenever the
+    // layout changes), so scrolling only writes styles and never forces a layout.
+    function initDepth() {
         if (!root.classList.contains('fx')) return;
-        const items = document.querySelectorAll('[data-reveal]');
+        const items = Array.from(document.querySelectorAll('[data-reveal]'));
 
-        // Stagger siblings slightly so groups arrive one after another.
+        // The intro plays in once on load; stagger siblings so they arrive in turn
         items.forEach(function (el) {
             const group = Array.from(el.parentElement.children).filter(c => c.hasAttribute('data-reveal'));
             const index = group.indexOf(el);
             if (index > 0) el.style.setProperty('--reveal-delay', Math.min(index, 5) * 90 + 'ms');
         });
 
-        const observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-in');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+        const clamp = x => Math.min(1, Math.max(0, x));
+        const ease = x => x * x * (3 - 2 * x);
+        let boxes = [];
+        let vh = window.innerHeight;
+        let queued = false;
 
-        items.forEach(el => observer.observe(el));
+        function measure() {
+            items.forEach(function (el) {
+                el.style.translate = '';
+                el.style.scale = '';
+                el.style.opacity = '';
+            });
+            vh = window.innerHeight;
+            const y = window.scrollY;
+            boxes = items.map(function (el) {
+                const r = el.getBoundingClientRect();
+                const sticky = getComputedStyle(el).position === 'sticky';
+                return { top: r.top + y, bottom: r.bottom + y, sticky: sticky, lag: 0 };
+            });
+            // Cards side by side in a row arrive in a slight cascade
+            boxes.forEach(function (box, i) {
+                const el = items[i];
+                const before = items.slice(0, i).filter((other, j) => other.parentElement === el.parentElement && Math.abs(boxes[j].top - box.top) < 4);
+                box.lag = before.length * vh * 0.05;
+            });
+            update();
+        }
+
+        function update() {
+            queued = false;
+            const y = window.scrollY;
+            items.forEach(function (el, i) {
+                const box = boxes[i];
+                let scale = 1, shift = 0, opacity = 1;
+                // Sticky headings and whatever has keyboard focus stay put and fully visible
+                if (box && !box.sticky && !el.contains(document.activeElement)) {
+                    const top = box.top - y + box.lag;
+                    const bottom = box.bottom - y;
+                    const enter = clamp((top - vh * 0.62) / (vh * 0.38));
+                    const leave = clamp((vh * 0.22 - bottom) / (vh * 0.22));
+                    if (enter > 0) {
+                        const e = ease(enter);
+                        scale = 1 - 0.16 * e;
+                        shift = 90 * e;
+                        opacity = 1 - 0.95 * e;
+                    } else if (leave > 0) {
+                        const l = ease(leave);
+                        scale = 1 + 0.1 * l;
+                        shift = -30 * l;
+                        opacity = 1 - 0.9 * l;
+                    }
+                }
+                el.style.scale = scale === 1 ? '' : scale.toFixed(4);
+                el.style.translate = shift === 0 ? '' : '0 ' + shift.toFixed(1) + 'px';
+                el.style.opacity = opacity === 1 ? '' : opacity.toFixed(3);
+            });
+        }
+
+        function queue() {
+            if (!queued) {
+                queued = true;
+                requestAnimationFrame(update);
+            }
+        }
+
+        window.addEventListener('scroll', queue, { passive: true });
+        window.addEventListener('resize', measure);
+        document.addEventListener('focusin', queue);
+        if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
+        measure();
     }
 
     // Stat numbers (data-count) count up from zero the first time they come into view.
