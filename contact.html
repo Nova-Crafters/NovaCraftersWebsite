@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | NovaCrafters</title>
-  <meta name="description" content="Ask NovaCrafters for a free website for your certified nonprofit. Fill out this form or email service@nova-crafters.com.">
+  <meta name="description" content="Ask NovaCrafters for a free website for your certified nonprofit. Tell us about your organization and what you need.">
   <meta name="theme-color" content="#06040d">
 
   <link rel="icon" type="image/png" href="roundednova.png">
@@ -13,16 +13,16 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="NovaCrafters">
   <meta property="og:title" content="Contact | NovaCrafters">
-  <meta property="og:description" content="Ask NovaCrafters for a free website for your certified nonprofit. Fill out this form or email service@nova-crafters.com.">
+  <meta property="og:description" content="Ask NovaCrafters for a free website for your certified nonprofit. Tell us about your organization and what you need.">
   <meta property="og:url" content="https://nova-crafters.com/contact.html">
   <meta property="og:image" content="https://nova-crafters.com/roundednova.png">
   <meta name="twitter:card" content="summary">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260925-7">
-  <script src="nav.js?v=20260925-7"></script>
-  <script src="scene.js?v=20260925-7" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20260925-8">
+  <script src="nav.js?v=20260925-8"></script>
+  <script src="scene.js?v=20260925-8" defer></script>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M2DYWWW21"></script>
@@ -95,7 +95,7 @@
 
         <div class="contact__panel panel" data-reveal>
           <form id="contactForm" action="https://formspree.io/f/xnnvpkgg" method="POST">
-            <p class="form-note">All fields are required.</p>
+            <p class="form-note">All fields are required unless marked optional.</p>
 
             <div class="field">
               <label class="field__label" for="fullName">Full name</label>
@@ -115,6 +115,36 @@
               <p class="error-message" id="organizationError" hidden></p>
             </div>
 
+            <div class="field-row">
+              <div class="field">
+                <label class="field__label" for="country">Country</label>
+                <input class="form-input" type="text" id="country" name="country" autocomplete="country-name" placeholder="United States" required>
+                <p class="error-message" id="countryError" hidden></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="registrationNumber">Registration number or EIN</label>
+                <input class="form-input" type="text" id="registrationNumber" name="registrationNumber" placeholder="12-3456789" required>
+                <p class="error-message" id="registrationNumberError" hidden></p>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="field__label" for="currentWebsite">Current website <span class="field__optional">(optional)</span></label>
+                <input class="form-input" type="text" inputmode="url" id="currentWebsite" name="currentWebsite" autocomplete="url" placeholder="eastsidefoodpantry.org">
+              </div>
+              <div class="field">
+                <label class="field__label" for="timeline">Timeline <span class="field__optional">(optional)</span></label>
+                <select class="form-input form-select" id="timeline" name="timeline">
+                  <option value="">Choose one</option>
+                  <option>As soon as possible</option>
+                  <option>Within 1 to 3 months</option>
+                  <option>In 3 to 6 months</option>
+                  <option>No fixed date</option>
+                </select>
+              </div>
+            </div>
+
             <div class="field">
               <label class="field__label" for="message">Message</label>
               <textarea class="form-input form-textarea" id="message" name="message" maxlength="1000" aria-describedby="characterCount" placeholder="We run a weekly food pantry and need a simple site with our hours, our address, and how people can donate." required></textarea>
@@ -128,6 +158,7 @@
               <p class="error-message" id="certificationError" hidden></p>
             </div>
 
+            <p class="form-next">After you send this, we'll reply by email to set up a free consultation.</p>
             <button class="button submit-btn" type="submit">Send message</button>
             <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
           </form>
@@ -150,18 +181,17 @@
         <ul class="site-footer__links">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="contact.html">Request a website</a></li>
         </ul>
       </div>
       <div class="site-footer__bottom">
         <p><a class="email" href="mailto:service@nova-crafters.com">service@nova-crafters.com</a></p>
         <p>&copy; <span id="year">2026</span> NovaCrafters. 501(c)(3) nonprofit organization.</p>
-        <p>nova-crafters.com is the official website of NovaCrafters.</p>
       </div>
     </div>
   </footer>
 
-  <script src="contact.js?v=20260925-7"></script>
+  <script src="contact.js?v=20260925-8"></script>
   <script> window.chtlConfig = { chatbotId: "2616644261" } </script>
   <script async data-id="2616644261" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 </body>

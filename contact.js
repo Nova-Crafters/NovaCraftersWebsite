@@ -72,6 +72,14 @@ function getFieldError(field) {
             if (!value) return "Please enter your organization's name.";
             break;
 
+        case 'country':
+            if (!value) return 'Please enter your country.';
+            break;
+
+        case 'registrationNumber':
+            if (!value) return "Please enter your nonprofit's registration number or EIN.";
+            break;
+
         case 'message':
             if (!value) return 'Please write a message.';
             if (value.length < 10) return 'Please write a little more (at least 10 characters).';
