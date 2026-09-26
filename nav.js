@@ -103,7 +103,10 @@
             boxes = items.map(function (el) {
                 const r = el.getBoundingClientRect();
                 const sticky = getComputedStyle(el).position === 'sticky';
-                return { top: r.top + y, bottom: r.bottom + y, sticky: sticky, lag: 0 };
+                // The opening screen (headline, stats) is already there on arrival,
+                // so it never starts "far away"; it only flies past as you scroll on
+                const intro = !!el.closest('.page-hero');
+                return { top: r.top + y, bottom: r.bottom + y, sticky: sticky, intro: intro, lag: 0 };
             });
             // Cards side by side in a row arrive in a slight cascade
             boxes.forEach(function (box, i) {
@@ -124,7 +127,7 @@
                 if (box && !box.sticky && !el.contains(document.activeElement)) {
                     const top = box.top - y + box.lag;
                     const bottom = box.bottom - y;
-                    const enter = clamp((top - vh * 0.62) / (vh * 0.38));
+                    const enter = box.intro ? 0 : clamp((top - vh * 0.62) / (vh * 0.38));
                     const leave = clamp((vh * 0.22 - bottom) / (vh * 0.22));
                     if (enter > 0) {
                         const e = ease(enter);

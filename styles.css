@@ -754,6 +754,29 @@ main:focus {
   }
 }
 
+/* Shorter laptop screens: tighten the home intro so the stats sit higher */
+@media (min-width: 768px) and (max-height: 880px) {
+  .page-hero.hero {
+    padding-top: calc(var(--header-h) + 1.5rem);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 4.6vw, 4rem);
+  }
+
+  .hero .lede {
+    margin-top: 1rem;
+  }
+
+  .hero .actions {
+    margin-top: 1.5rem;
+  }
+
+  .hero .hud {
+    margin-top: 2rem;
+  }
+}
+
 /* Stats: big gradient number above its label (the markup keeps label, then value) */
 .hud--stats .stat {
   display: flex;
